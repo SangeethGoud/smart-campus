@@ -13,7 +13,7 @@
       localStorage.clear();
       sessionStorage.clear();
       fetch('/api/auth/logout', { method: 'POST', credentials: 'include' }).catch(err => console.log(err));
-      window.location.href = 'login.html';
+      window.location.href = 'index.html';
     }
     window.scAuth = { logout: handleLogout };
   </script>
@@ -62,7 +62,7 @@
         <i class="fas fa-user"></i>
         <span>Profile</span>
       </a>
-      <a href="login.html" class="nav-item" onclick="localStorage.clear(); sessionStorage.clear();">
+      <a href="index.html" class="nav-item" onclick="localStorage.clear(); sessionStorage.clear();">
         <i class="fas fa-sign-out-alt"></i>
         <span>Logout</span>
       </a>

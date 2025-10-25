@@ -21,8 +21,8 @@
         credentials: 'include'
       }).catch(err => console.log('Logout API error:', err));
       
-      // Redirect to login
-      window.location.href = 'login.html';
+  // Redirect to home
+  window.location.href = 'index.html';
     }
     
     // Also keep scAuth for compatibility
@@ -49,7 +49,7 @@
       <a href="feedback.html" class="nav-item"><i class="fas fa-comments"></i><span>Feedback</span></a>
       <div style="padding: 0.5rem 1rem; font-size: 0.75rem; color: #9ca3af; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; margin-top: 0.5rem;">Account</div>
       <a href="profile.html" class="nav-item"><i class="fas fa-user"></i><span>Profile</span></a>
-      <a href="login.html" class="nav-item" onclick="localStorage.clear(); sessionStorage.clear();"><i class="fas fa-sign-out-alt"></i><span>Logout</span></a>
+  <a href="index.html" class="nav-item" onclick="localStorage.clear(); sessionStorage.clear();"><i class="fas fa-sign-out-alt"></i><span>Logout</span></a>
     </nav>
   </aside>
 
@@ -69,7 +69,7 @@
             <div id="user-email" style="font-size: 0.75rem; color: #97a6cc;">student@klh.edu</div>
           </div>
         </div>
-        <a href="login.html" onclick="localStorage.clear(); sessionStorage.clear();" style="padding: 0.5rem 1rem; background: #10b981; color: white; border: none; border-radius: 8px; cursor: pointer; font-weight: 600; text-decoration: none; display: inline-block;">
+        <a href="index.html" onclick="localStorage.clear(); sessionStorage.clear();" style="padding: 0.5rem 1rem; background: #10b981; color: white; border: none; border-radius: 8px; cursor: pointer; font-weight: 600; text-decoration: none; display: inline-block;">
           <i class="fas fa-sign-out-alt"></i> Logout
         </a>
       </div>
