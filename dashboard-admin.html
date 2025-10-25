@@ -1,0 +1,532 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <title>Admin Dashboard - Smart Campus</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/dashboard.css">
+  <link rel="stylesheet" href="css/components.css">
+  <script>
+    function handleLogout() {
+      localStorage.clear();
+      sessionStorage.clear();
+      fetch('/api/auth/logout', { method: 'POST', credentials: 'include' }).catch(err => console.log(err));
+      window.location.href = 'login.html';
+    }
+    window.scAuth = { logout: handleLogout };
+  </script>
+</head>
+<body class="dashboard-body">
+  <!-- Sidebar -->
+  <aside class="sidebar" style="border-right: 3px solid #ef4444;">
+    <div class="sidebar-header">
+      <div class="logo">
+        <div class="logo-icon">K</div>
+        <span class="logo-text">Smart Campus</span>
+      </div>
+      <div style="margin-top: 0.5rem; padding: 0.25rem 0.75rem; background: linear-gradient(135deg, #ef4444, #dc2626); border-radius: 12px; text-align: center; font-size: 0.75rem; font-weight: 700; color: white; text-transform: uppercase; letter-spacing: 0.5px;">
+        <i class="fas fa-shield-alt"></i> ADMIN
+      </div>
+    </div>
+    <nav class="sidebar-nav">
+      <a href="dashboard-admin.html" class="nav-item active">
+        <i class="fas fa-home"></i>
+        <span>Dashboard</span>
+      </a>
+      <a href="admin-super.html" class="nav-item" style="background: linear-gradient(135deg, #ef4444, #dc2626); color: white; font-weight: 700;">
+        <i class="fas fa-crown"></i>
+        <span>SUPER ADMIN</span>
+      </a>
+      <div style="padding: 0.5rem 1rem; font-size: 0.75rem; color: #9ca3af; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; margin-top: 0.5rem;">User Management</div>
+      <a href="#manage-users" class="nav-item" onclick="showUserManagement(); return false;">
+        <i class="fas fa-users-cog"></i>
+        <span>Manage Users</span>
+      </a>
+      <a href="#requests" class="nav-item" onclick="showRequests(); return false;">
+        <i class="fas fa-inbox"></i>
+        <span>REQUESTS <span id="request-badge" style="background: #f59e0b; color: white; padding: 0.125rem 0.5rem; border-radius: 10px; font-size: 0.7rem; margin-left: 0.5rem;">0</span></span>
+      </a>
+      <a href="#approvals" class="nav-item" onclick="showApprovals(); return false;">
+        <i class="fas fa-check-circle"></i>
+        <span>Approvals <span id="approval-badge" style="background: #ef4444; color: white; padding: 0.125rem 0.5rem; border-radius: 10px; font-size: 0.7rem; margin-left: 0.5rem;">3</span></span>
+      </a>
+      <div style="padding: 0.5rem 1rem; font-size: 0.75rem; color: #9ca3af; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; margin-top: 0.5rem;">Content</div>
+      <a href="events.html" class="nav-item">
+        <i class="fas fa-calendar-alt"></i>
+        <span>Events</span>
+      </a>
+      <a href="announcements.html" class="nav-item">
+        <i class="fas fa-bullhorn"></i>
+        <span>Announcements</span>
+      </a>
+      <a href="clubs.html" class="nav-item">
+        <i class="fas fa-users"></i>
+        <span>Clubs</span>
+      </a>
+      <div style="padding: 0.5rem 1rem; font-size: 0.75rem; color: #9ca3af; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; margin-top: 0.5rem;">System</div>
+      <a href="login.html" class="nav-item" onclick="localStorage.clear(); sessionStorage.clear();">
+        <i class="fas fa-sign-out-alt"></i>
+        <span>Logout</span>
+      </a>
+    </nav>
+  </aside>
+
+  <!-- Main Content -->
+  <main class="main-content">
+    <!-- Top Bar -->
+    <header class="top-bar">
+      <div class="top-bar-left">
+        <h1 class="page-title">Admin Dashboard</h1>
+        <p style="font-size: 0.875rem; color: #9ca3af; margin-top: 0.25rem;">Full system control and user management</p>
+      </div>
+      <div class="top-bar-right" style="display: flex; align-items: center; gap: 1rem;">
+        <div class="user-info" style="display: flex; align-items: center; gap: 0.75rem; padding: 0.5rem 1rem; background: rgba(239, 68, 68, 0.1); border-radius: 8px; border: 1px solid rgba(239, 68, 68, 0.3);">
+          <div style="width: 36px; height: 36px; background: linear-gradient(135deg, #ef4444, #dc2626); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-weight: 700;">
+            <i class="fas fa-user-shield"></i>
+          </div>
+          <div>
+            <div id="user-name" style="font-weight: 600; color: #e6eefc; font-size: 0.875rem;">Admin</div>
+            <div id="user-email" style="font-size: 0.75rem; color: #97a6cc;">admin@klh.edu</div>
+          </div>
+        </div>
+        <a href="login.html" onclick="localStorage.clear(); sessionStorage.clear();" style="padding: 0.5rem 1rem; background: #ef4444; color: white; border: none; border-radius: 8px; cursor: pointer; font-weight: 600; text-decoration: none; display: inline-block;">
+          <i class="fas fa-sign-out-alt"></i> Logout
+        </a>
+      </div>
+    </header>
+
+    <!-- Dashboard Content -->
+    <div class="dashboard-content">
+      <!-- Stats Overview -->
+      <div class="dashboard-grid" style="grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin-bottom: 2rem;">
+        <div class="dashboard-card" style="background: linear-gradient(135deg, #3b82f6, #2563eb); color: white;">
+          <h4 style="font-size: 0.875rem; opacity: 0.9; margin-bottom: 0.5rem;">Total Users</h4>
+          <div style="font-size: 2rem; font-weight: 700;">247</div>
+        </div>
+        <div class="dashboard-card" style="background: linear-gradient(135deg, #10b981, #059669); color: white;">
+          <h4 style="font-size: 0.875rem; opacity: 0.9; margin-bottom: 0.5rem;">Active Events</h4>
+          <div style="font-size: 2rem; font-weight: 700;">12</div>
+        </div>
+        <div class="dashboard-card" style="background: linear-gradient(135deg, #f59e0b, #d97706); color: white;">
+          <h4 style="font-size: 0.875rem; opacity: 0.9; margin-bottom: 0.5rem;">Pending Approvals</h4>
+          <div style="font-size: 2rem; font-weight: 700;">3</div>
+        </div>
+        <div class="dashboard-card" style="background: linear-gradient(135deg, #a855f7, #9333ea); color: white;">
+          <h4 style="font-size: 0.875rem; opacity: 0.9; margin-bottom: 0.5rem;">Active Clubs</h4>
+          <div style="font-size: 2rem; font-weight: 700;">8</div>
+        </div>
+      </div>
+
+      <!-- Pending Approvals Section -->
+      <div id="approvals-section" class="dashboard-card" style="margin-bottom: 2rem;">
+        <div class="card-header">
+          <h3><i class="fas fa-check-circle" style="color: #f59e0b;"></i> Pending Approvals</h3>
+        </div>
+        <div style="overflow-x: auto;">
+          <table style="width: 100%; border-collapse: collapse;">
+            <thead>
+              <tr style="border-bottom: 2px solid rgba(255, 255, 255, 0.1); text-align: left;">
+                <th style="padding: 0.75rem; font-weight: 600; color: #97a6cc;">User</th>
+                <th style="padding: 0.75rem; font-weight: 600; color: #97a6cc;">Type</th>
+                <th style="padding: 0.75rem; font-weight: 600; color: #97a6cc;">Request</th>
+                <th style="padding: 0.75rem; font-weight: 600; color: #97a6cc;">Date</th>
+                <th style="padding: 0.75rem; font-weight: 600; color: #97a6cc;">Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr style="border-bottom: 1px solid rgba(255, 255, 255, 0.05);">
+                <td style="padding: 0.75rem; color: #e6eefc;">Dr. Jane Smith</td>
+                <td style="padding: 0.75rem;"><span style="background: rgba(59, 130, 246, 0.2); color: #3b82f6; padding: 0.25rem 0.5rem; border-radius: 6px; font-size: 0.75rem; font-weight: 600; border: 1px solid rgba(59, 130, 246, 0.3);">Faculty</span></td>
+                <td style="padding: 0.75rem; color: #e6eefc;">Create Event: Tech Symposium</td>
+                <td style="padding: 0.75rem; color: #97a6cc;">2 hours ago</td>
+                <td style="padding: 0.75rem;">
+                  <button onclick="approveRequest(1)" style="background: #10b981; color: white; border: none; padding: 0.375rem 0.75rem; border-radius: 6px; margin-right: 0.5rem; cursor: pointer; font-size: 0.875rem;">
+                    <i class="fas fa-check"></i> Approve
+                  </button>
+                  <button onclick="rejectRequest(1)" style="background: #ef4444; color: white; border: none; padding: 0.375rem 0.75rem; border-radius: 6px; cursor: pointer; font-size: 0.875rem;">
+                    <i class="fas fa-times"></i> Reject
+                  </button>
+                </td>
+              </tr>
+              <tr style="border-bottom: 1px solid rgba(255, 255, 255, 0.05);">
+                <td style="padding: 0.75rem; color: #e6eefc;">Prof. Mike Johnson</td>
+                <td style="padding: 0.75rem;"><span style="background: rgba(59, 130, 246, 0.2); color: #3b82f6; padding: 0.25rem 0.5rem; border-radius: 6px; font-size: 0.75rem; font-weight: 600; border: 1px solid rgba(59, 130, 246, 0.3);">Faculty</span></td>
+                <td style="padding: 0.75rem; color: #e6eefc;">Post Announcement: Holiday Notice</td>
+                <td style="padding: 0.75rem; color: #97a6cc;">5 hours ago</td>
+                <td style="padding: 0.75rem;">
+                  <button onclick="approveRequest(2)" style="background: #10b981; color: white; border: none; padding: 0.375rem 0.75rem; border-radius: 6px; margin-right: 0.5rem; cursor: pointer; font-size: 0.875rem;">
+                    <i class="fas fa-check"></i> Approve
+                  </button>
+                  <button onclick="rejectRequest(2)" style="background: #ef4444; color: white; border: none; padding: 0.375rem 0.75rem; border-radius: 6px; cursor: pointer; font-size: 0.875rem;">
+                    <i class="fas fa-times"></i> Reject
+                  </button>
+                </td>
+              </tr>
+              <tr style="border-bottom: 1px solid rgba(255, 255, 255, 0.05);">
+                <td style="padding: 0.75rem; color: #e6eefc;">Alex Kumar</td>
+                <td style="padding: 0.75rem;"><span style="background: rgba(16, 185, 129, 0.2); color: #10b981; padding: 0.25rem 0.5rem; border-radius: 6px; font-size: 0.75rem; font-weight: 600; border: 1px solid rgba(16, 185, 129, 0.3);">Student</span></td>
+                <td style="padding: 0.75rem; color: #e6eefc;">Create Club: AI Enthusiasts</td>
+                <td style="padding: 0.75rem; color: #97a6cc;">1 day ago</td>
+                <td style="padding: 0.75rem;">
+                  <button onclick="approveRequest(3)" style="background: #10b981; color: white; border: none; padding: 0.375rem 0.75rem; border-radius: 6px; margin-right: 0.5rem; cursor: pointer; font-size: 0.875rem;">
+                    <i class="fas fa-check"></i> Approve
+                  </button>
+                  <button onclick="rejectRequest(3)" style="background: #ef4444; color: white; border: none; padding: 0.375rem 0.75rem; border-radius: 6px; cursor: pointer; font-size: 0.875rem;">
+                    <i class="fas fa-times"></i> Reject
+                  </button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- User Management Section -->
+      <div id="user-management-section" class="dashboard-card" style="display: none;">
+        <div class="card-header">
+          <h3><i class="fas fa-users-cog" style="color: #3b82f6;"></i> User Management</h3>
+          <button onclick="openAddUserModal()" style="background: #3b82f6; color: white; border: none; padding: 0.5rem 1rem; border-radius: 6px; cursor: pointer; font-weight: 600;">
+            <i class="fas fa-plus"></i> Add User
+          </button>
+        </div>
+        <div style="overflow-x: auto; margin-top: 1rem;">
+          <table style="width: 100%; border-collapse: collapse;">
+            <thead>
+              <tr style="border-bottom: 2px solid rgba(255, 255, 255, 0.1); text-align: left;">
+                <th style="padding: 0.75rem; font-weight: 600; color: #97a6cc;">Name</th>
+                <th style="padding: 0.75rem; font-weight: 600; color: #97a6cc;">Email</th>
+                <th style="padding: 0.75rem; font-weight: 600; color: #97a6cc;">Role</th>
+                <th style="padding: 0.75rem; font-weight: 600; color: #97a6cc;">Status</th>
+                <th style="padding: 0.75rem; font-weight: 600; color: #97a6cc;">Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr style="border-bottom: 1px solid rgba(255, 255, 255, 0.05);">
+                <td style="padding: 0.75rem; color: #e6eefc;">John Doe</td>
+                <td style="padding: 0.75rem; color: #e6eefc;">student@klh.edu</td>
+                <td style="padding: 0.75rem;"><span style="background: rgba(16, 185, 129, 0.2); color: #10b981; padding: 0.25rem 0.5rem; border-radius: 6px; font-size: 0.75rem; font-weight: 600; border: 1px solid rgba(16, 185, 129, 0.3);">Student</span></td>
+                <td style="padding: 0.75rem;"><span style="background: rgba(16, 185, 129, 0.15); color: #10b981; padding: 0.25rem 0.5rem; border-radius: 6px; font-size: 0.75rem; font-weight: 600; border: 1px solid rgba(16, 185, 129, 0.25);">Active</span></td>
+                <td style="padding: 0.75rem;">
+                  <button style="background: #f59e0b; color: white; border: none; padding: 0.375rem 0.75rem; border-radius: 6px; margin-right: 0.5rem; cursor: pointer; font-size: 0.875rem;">
+                    <i class="fas fa-edit"></i> Edit
+                  </button>
+                  <button style="background: #ef4444; color: white; border: none; padding: 0.375rem 0.75rem; border-radius: 6px; cursor: pointer; font-size: 0.875rem;">
+                    <i class="fas fa-ban"></i> Disable
+                  </button>
+                </td>
+              </tr>
+              <tr style="border-bottom: 1px solid rgba(255, 255, 255, 0.05);">
+                <td style="padding: 0.75rem; color: #e6eefc;">Dr. Sarah Smith</td>
+                <td style="padding: 0.75rem; color: #e6eefc;">faculty@klh.edu</td>
+                <td style="padding: 0.75rem;"><span style="background: rgba(59, 130, 246, 0.2); color: #3b82f6; padding: 0.25rem 0.5rem; border-radius: 6px; font-size: 0.75rem; font-weight: 600; border: 1px solid rgba(59, 130, 246, 0.3);">Faculty</span></td>
+                <td style="padding: 0.75rem;"><span style="background: rgba(16, 185, 129, 0.15); color: #10b981; padding: 0.25rem 0.5rem; border-radius: 6px; font-size: 0.75rem; font-weight: 600; border: 1px solid rgba(16, 185, 129, 0.25);">Active</span></td>
+                <td style="padding: 0.75rem;">
+                  <button style="background: #f59e0b; color: white; border: none; padding: 0.375rem 0.75rem; border-radius: 6px; margin-right: 0.5rem; cursor: pointer; font-size: 0.875rem;">
+                    <i class="fas fa-edit"></i> Edit
+                  </button>
+                  <button style="background: #ef4444; color: white; border: none; padding: 0.375rem 0.75rem; border-radius: 6px; cursor: pointer; font-size: 0.875rem;">
+                    <i class="fas fa-ban"></i> Disable
+                  </button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Requests Section -->
+      <div id="requests-section" class="dashboard-card" style="display: none;">
+        <div class="card-header">
+          <h3><i class="fas fa-inbox" style="color: #f59e0b;"></i> Pending Requests</h3>
+        </div>
+        <div id="requests-container" style="margin-top: 1rem;">
+          <p style="text-align: center; color: #97a6cc; padding: 2rem;">Loading requests...</p>
+        </div>
+      </div>
+
+      <!-- Quick Actions -->
+      <div class="dashboard-grid" style="grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1rem;">
+        <a class="action-card" href="events.html" style="text-decoration: none; color: inherit;">
+          <div class="action-icon bg-blue">
+            <i class="fas fa-calendar-plus"></i>
+          </div>
+          <h4>Manage Events</h4>
+          <p style="font-size: 0.875rem; color: #97a6cc;">Create, edit, and delete events</p>
+        </a>
+        <a class="action-card" href="announcements.html" style="text-decoration: none; color: inherit;">
+          <div class="action-icon bg-green">
+            <i class="fas fa-bullhorn"></i>
+          </div>
+          <h4>Manage Announcements</h4>
+          <p style="font-size: 0.875rem; color: #97a6cc;">Post and manage announcements</p>
+        </a>
+        <a class="action-card" href="clubs.html" style="text-decoration: none; color: inherit;">
+          <div class="action-icon" style="background: linear-gradient(135deg, #a855f7, #9333ea);">
+            <i class="fas fa-users"></i>
+          </div>
+          <h4>Manage Clubs</h4>
+          <p style="font-size: 0.875rem; color: #97a6cc;">Oversee all campus clubs</p>
+        </a>
+      </div>
+    </div>
+  </main>
+
+  <!-- Add User Modal -->
+  <div id="addUserModal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.7); z-index: 1000; align-items: center; justify-content: center;">
+    <div style="background: #1e293b; border-radius: 12px; padding: 2rem; width: 90%; max-width: 500px; box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem;">
+        <h2 style="color: #e6eefc; margin: 0;"><i class="fas fa-user-plus"></i> Add New User</h2>
+        <button onclick="closeAddUserModal()" style="background: none; border: none; color: #97a6cc; font-size: 1.5rem; cursor: pointer;">&times;</button>
+      </div>
+      
+      <form id="addUserForm" onsubmit="handleAddUser(event)">
+        <div style="margin-bottom: 1rem;">
+          <label style="display: block; color: #97a6cc; margin-bottom: 0.5rem; font-size: 0.875rem;">Full Name</label>
+          <input type="text" id="userName" required style="width: 100%; padding: 0.75rem; background: rgba(15, 23, 42, 0.8); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 8px; color: #e6eefc; font-size: 0.875rem;">
+        </div>
+        
+        <div style="margin-bottom: 1rem;">
+          <label style="display: block; color: #97a6cc; margin-bottom: 0.5rem; font-size: 0.875rem;">Email Address</label>
+          <input type="email" id="userEmail" required style="width: 100%; padding: 0.75rem; background: rgba(15, 23, 42, 0.8); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 8px; color: #e6eefc; font-size: 0.875rem;">
+        </div>
+        
+        <div style="margin-bottom: 1rem;">
+          <label style="display: block; color: #97a6cc; margin-bottom: 0.5rem; font-size: 0.875rem;">Password</label>
+          <input type="password" id="userPassword" required minlength="6" style="width: 100%; padding: 0.75rem; background: rgba(15, 23, 42, 0.8); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 8px; color: #e6eefc; font-size: 0.875rem;">
+        </div>
+        
+        <div style="margin-bottom: 1.5rem;">
+          <label style="display: block; color: #97a6cc; margin-bottom: 0.5rem; font-size: 0.875rem;">Role</label>
+          <select id="userRole" required style="width: 100%; padding: 0.75rem; background: rgba(15, 23, 42, 0.8); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 8px; color: #e6eefc; font-size: 0.875rem;">
+            <option value="">Select Role</option>
+            <option value="student">Student</option>
+            <option value="faculty">Faculty</option>
+            <option value="admin">Admin</option>
+          </select>
+        </div>
+        
+        <div style="display: flex; gap: 1rem; justify-content: flex-end;">
+          <button type="button" onclick="closeAddUserModal()" style="padding: 0.75rem 1.5rem; background: rgba(255, 255, 255, 0.1); color: #e6eefc; border: none; border-radius: 8px; cursor: pointer; font-weight: 600;">
+            Cancel
+          </button>
+          <button type="submit" style="padding: 0.75rem 1.5rem; background: #3b82f6; color: white; border: none; border-radius: 8px; cursor: pointer; font-weight: 600;">
+            <i class="fas fa-plus"></i> Create User
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script src="js/dashboard.js"></script>
+  <script src="js/theme-switcher.js"></script>
+  <script>
+    function showApprovals() {
+      document.getElementById('approvals-section').style.display = 'block';
+      document.getElementById('user-management-section').style.display = 'none';
+      document.getElementById('requests-section').style.display = 'none';
+      document.querySelectorAll('.nav-item').forEach(item => item.classList.remove('active'));
+      event.target.closest('.nav-item').classList.add('active');
+    }
+    
+    function showUserManagement() {
+      document.getElementById('approvals-section').style.display = 'none';
+      document.getElementById('user-management-section').style.display = 'block';
+      document.getElementById('requests-section').style.display = 'none';
+      document.querySelectorAll('.nav-item').forEach(item => item.classList.remove('active'));
+      event.target.closest('.nav-item').classList.add('active');
+    }
+    
+    function showRequests() {
+      document.getElementById('approvals-section').style.display = 'none';
+      document.getElementById('user-management-section').style.display = 'none';
+      document.getElementById('requests-section').style.display = 'block';
+      document.querySelectorAll('.nav-item').forEach(item => item.classList.remove('active'));
+      event.target.closest('.nav-item').classList.add('active');
+      loadRequests();
+    }
+    
+    async function loadRequests() {
+      try {
+        const response = await fetch('http://localhost:3000/api/requests', {
+          credentials: 'include'
+        });
+        const data = await response.json();
+        
+        const container = document.getElementById('requests-container');
+        
+        if(data.ok && data.requests && data.requests.length > 0) {
+          document.getElementById('request-badge').textContent = data.requests.length;
+          
+          container.innerHTML = data.requests.map(req => `
+            <div style="padding: 1rem; background: rgba(245, 158, 11, 0.1); border-left: 3px solid #f59e0b; border-radius: 6px; margin-bottom: 0.75rem; border: 1px solid rgba(245, 158, 11, 0.2);">
+              <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 0.5rem;">
+                <div>
+                  <h4 style="color: #e6eefc; margin-bottom: 0.25rem;">
+                    <i class="fas fa-${req.type === 'event' ? 'calendar' : 'users'}"></i> ${req.name}
+                  </h4>
+                  <p style="color: #97a6cc; font-size: 0.875rem; margin: 0.25rem 0;">
+                    <strong>Type:</strong> ${req.type.charAt(0).toUpperCase() + req.type.slice(1)} Request
+                  </p>
+                  <p style="color: #97a6cc; font-size: 0.875rem; margin: 0.25rem 0;">
+                    <strong>Requested by:</strong> ${req.requestedBy}
+                  </p>
+                  ${req.date ? `<p style="color: #97a6cc; font-size: 0.875rem; margin: 0.25rem 0;"><strong>Date:</strong> ${req.date}</p>` : ''}
+                  <p style="color: #97a6cc; font-size: 0.875rem; margin: 0.25rem 0;">
+                    <strong>Description:</strong> ${req.description}
+                  </p>
+                </div>
+                <span style="background: rgba(245, 158, 11, 0.3); color: #fbbf24; padding: 0.25rem 0.75rem; border-radius: 12px; font-size: 0.75rem; font-weight: 600; border: 1px solid rgba(245, 158, 11, 0.4);">PENDING</span>
+              </div>
+              <div style="display: flex; gap: 0.5rem; margin-top: 1rem;">
+                <button onclick="approveCreationRequest(${req.id}, '${req.type}', '${req.requestedBy}')" style="background: #10b981; color: white; border: none; padding: 0.5rem 1rem; border-radius: 6px; cursor: pointer; font-size: 0.875rem; font-weight: 600;">
+                  <i class="fas fa-check"></i> Approve & Allow Creation
+                </button>
+                <button onclick="rejectCreationRequest(${req.id}, '${req.requestedBy}')" style="background: #ef4444; color: white; border: none; padding: 0.5rem 1rem; border-radius: 6px; cursor: pointer; font-size: 0.875rem; font-weight: 600;">
+                  <i class="fas fa-times"></i> Reject
+                </button>
+              </div>
+            </div>
+          `).join('');
+        } else {
+          container.innerHTML = '<p style="text-align: center; color: #97a6cc; padding: 2rem;">No pending requests</p>';
+          document.getElementById('request-badge').textContent = '0';
+        }
+      } catch(error) {
+        console.error('Error loading requests:', error);
+        document.getElementById('requests-container').innerHTML = '<p style="text-align: center; color: #ef4444; padding: 2rem;">Failed to load requests</p>';
+      }
+    }
+    
+    async function approveCreationRequest(requestId, type, userEmail) {
+      if(!confirm(`Approve this ${type} creation request?\n\nThe user will be notified and can now create the ${type}.`)) {
+        return;
+      }
+      
+      try {
+        const response = await fetch(`http://localhost:3000/api/requests/${requestId}/approve`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          credentials: 'include',
+          body: JSON.stringify({ userEmail, type })
+        });
+        
+        const data = await response.json();
+        
+        if(data.ok) {
+          alert(`✅ Request approved!\n\nNotification sent to ${userEmail}`);
+          loadRequests();
+        } else {
+          alert('❌ Failed to approve request');
+        }
+      } catch(error) {
+        console.error('Error:', error);
+        alert('❌ Failed to approve request');
+      }
+    }
+    
+    async function rejectCreationRequest(requestId, userEmail) {
+      if(!confirm(`Reject this request?\n\nThe user will be notified.`)) {
+        return;
+      }
+      
+      try {
+        const response = await fetch(`http://localhost:3000/api/requests/${requestId}/reject`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          credentials: 'include',
+          body: JSON.stringify({ userEmail })
+        });
+        
+        const data = await response.json();
+        
+        if(data.ok) {
+          alert(`✅ Request rejected!\n\nNotification sent to ${userEmail}`);
+          loadRequests();
+        } else {
+          alert('❌ Failed to reject request');
+        }
+      } catch(error) {
+        console.error('Error:', error);
+        alert('❌ Failed to reject request');
+      }
+    }
+    
+    function approveRequest(id) {
+      if(confirm('Approve this request?')) {
+        alert('Request approved! User will be notified.');
+        // Here you would make an API call to approve
+        event.target.closest('tr').style.opacity = '0.5';
+      }
+    }
+    
+    function rejectRequest(id) {
+      if(confirm('Reject this request?')) {
+        alert('Request rejected. User will be notified.');
+        // Here you would make an API call to reject
+        event.target.closest('tr').style.opacity = '0.5';
+      }
+    }
+    
+    // User Management Functions
+    function openAddUserModal() {
+      document.getElementById('addUserModal').style.display = 'flex';
+    }
+    
+    function closeAddUserModal() {
+      document.getElementById('addUserModal').style.display = 'none';
+      document.getElementById('addUserForm').reset();
+    }
+    
+    async function handleAddUser(event) {
+      event.preventDefault();
+      
+      const name = document.getElementById('userName').value;
+      const email = document.getElementById('userEmail').value;
+      const password = document.getElementById('userPassword').value;
+      const role = document.getElementById('userRole').value;
+      
+      try {
+        const response = await fetch('http://localhost:3000/api/auth/register', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          credentials: 'include',
+          body: JSON.stringify({
+            name: name,
+            email: email,
+            password: password,
+            role: role
+          })
+        });
+        
+        const data = await response.json();
+        
+        if (data.ok) {
+          alert('User created successfully! ✅\n\nCredentials:\nEmail: ' + email + '\nPassword: ' + password + '\nRole: ' + role);
+          closeAddUserModal();
+          
+          // Reload user list (you can implement this to fetch from API)
+          location.reload();
+        } else {
+          alert('Error: ' + (data.error || 'Failed to create user'));
+        }
+      } catch (error) {
+        console.error('Error creating user:', error);
+        alert('Failed to create user. Please try again.');
+      }
+    }
+    
+    // Close modal when clicking outside
+    document.getElementById('addUserModal')?.addEventListener('click', function(e) {
+      if (e.target === this) {
+        closeAddUserModal();
+      }
+    });
+    
+  </script>
+</body>
+</html>
+

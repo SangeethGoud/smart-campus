@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <title>Announcements - Smart Campus</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/dashboard.css">
+  <link rel="stylesheet" href="css/components.css">
+</head>
+<body class="dashboard-body">
+  <aside class="sidebar">
+    <div class="sidebar-header"><div class="logo"><div class="logo-icon">K</div><span class="logo-text">Smart Campus</span></div></div>
+    <nav class="sidebar-nav">
+      <a href="dashboard-student.html" class="nav-item"><i class="fas fa-home"></i><span>Dashboard</span></a>
+      <a href="events.html" class="nav-item"><i class="fas fa-calendar-alt"></i><span>Events</span></a>
+      <a href="clubs.html" class="nav-item"><i class="fas fa-users"></i><span>Clubs</span></a>
+      <a href="lost-found.html" class="nav-item"><i class="fas fa-search"></i><span>Lost & Found</span></a>
+      <a href="resources.html" class="nav-item"><i class="fas fa-book-open"></i><span>Resources</span></a>
+      <a href="feedback.html" class="nav-item"><i class="fas fa-comments"></i><span>Feedback</span></a>
+      <a href="announcements.html" class="nav-item active"><i class="fas fa-bullhorn"></i><span>Announcements</span></a>
+    </nav>
+  </aside>
+
+  <main class="main-content">
+    <header class="top-bar"><div class="top-bar-left"><h1 class="page-title">Announcements</h1></div>
+      <div class="top-bar-right"><div class="user-profile"><img src="https://ui-avatars.com/api/?name=User&background=a855f7&color=fff"><span class="user-name">User</span></div></div>
+    </header>
+
+    <div class="dashboard-content">
+      <div class="section-header"><h3>Latest Announcements</h3></div>
+
+      <div class="dashboard-grid">
+        <div class="dashboard-card">
+          <div class="card-header"><h3>Campus Notices</h3><a class="view-all" href="announcements.html">View all</a></div>
+          <div class="announcements-list">
+            <article class="announcement-item glass">
+              <h4>Maintenance Downtime</h4>
+              <p>Network maintenance on 28 Oct from 1:00 AM to 4:00 AM. Save your work.</p>
+              <div class="notification-time">2 days ago</div>
+            </article>
+
+            <article class="announcement-item glass">
+              <h4>Library New Timings</h4>
+              <p>Library hours extended till 10 PM starting next week.</p>
+              <div class="notification-time">5 days ago</div>
+            </article>
+          </div>
+        </div>
+
+        <div class="dashboard-card">
+          <div class="card-header"><h3>Create Announcement</h3></div>
+          <form class="glass" onsubmit="event.preventDefault(); alert('Announcement posted (mock)')">
+            <div class="form-group"><label>Title</label><input required></div>
+            <div class="form-group"><label>Message</label><textarea rows="4" required></textarea></div>
+            <div class="form-row"><button class="btn-primary" type="submit">Post</button></div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <script src="js/dashboard.js"></script>
+</body>
+</html>

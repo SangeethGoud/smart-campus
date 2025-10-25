@@ -1,0 +1,1202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Event Management - Smart Campus</title>
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/dashboard.css">
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(180deg, #06112a 0%, #071428 100%);
+            color: #e6eefc;
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        /* Navigation */
+        #navbar {
+            background: rgba(5, 10, 25, 0.95);
+            backdrop-filter: blur(16px);
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        
+        .nav-wrapper {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 0;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .logo-icon {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, #a855f7, #ec4899);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #ffffff;
+            font-weight: 700;
+            font-size: 1.2rem;
+        }
+        
+        .logo-text {
+            font-weight: 700;
+            font-size: 1.2rem;
+            color: #e6eefc;
+        }
+        
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+        
+        .nav-link {
+            text-decoration: none;
+            color: #97a6cc;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+        
+        .nav-link.active, .nav-link:hover {
+            color: #a855f7;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, #a855f7, #ec4899);
+            color: #ffffff;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(168, 85, 247, 0.4);
+        }
+        
+        .mobile-toggle {
+            display: none;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            color: #e6eefc;
+            cursor: pointer;
+        }
+        
+        /* Hero Section */
+        .hero {
+            padding: 4rem 0;
+            background: rgba(10, 18, 38, 0.4);
+            border-radius: 20px;
+            margin: 2rem 0;
+            position: relative;
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        
+        .hero-content {
+            text-align: center;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .hero-badge {
+            display: inline-block;
+            background: rgba(168, 85, 247, 0.15);
+            color: #a855f7;
+            padding: 0.5rem 1rem;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            margin-bottom: 1.5rem;
+            border: 1px solid rgba(168, 85, 247, 0.3);
+        }
+        
+        .hero-title {
+            font-size: 3rem;
+            font-weight: 800;
+            margin-bottom: 1.5rem;
+            line-height: 1.2;
+            color: #e6eefc;
+        }
+        
+        .gradient-text {
+            background: linear-gradient(135deg, #a855f7, #ec4899);
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .hero-subtitle {
+            font-size: 1.2rem;
+            color: #97a6cc;
+            margin-bottom: 2.5rem;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        .hero-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            margin-bottom: 3rem;
+        }
+        
+        .btn-large {
+            padding: 1rem 2rem;
+            font-size: 1.1rem;
+        }
+        
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.05);
+            color: #e6eefc;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+            transition: all 0.3s;
+        }
+        
+        .btn-secondary:hover {
+            border-color: #a855f7;
+            background: rgba(168, 85, 247, 0.1);
+            color: #a855f7;
+        }
+        
+        /* Stats Grid */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+        
+        .stat-card {
+            background: rgba(10, 18, 38, 0.64);
+            padding: 1.5rem;
+            border-radius: 12px;
+            text-align: center;
+            border: 1px solid rgba(255, 255, 255, 0.04);
+            box-shadow: 0 6px 20px rgba(2, 8, 23, 0.45);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        
+        .stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 0 40px rgba(168, 85, 247, 0.3);
+            border-color: rgba(168, 85, 247, 0.3);
+        }
+        
+        .stat-number {
+            font-size: 2rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #a855f7, #ec4899);
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 0.5rem;
+        }
+        
+        .stat-label {
+            color: #97a6cc;
+            font-weight: 500;
+        }
+        
+        /* Section Header */
+        .section-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+        
+        .section-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+        
+        .section-subtitle {
+            font-size: 1.2rem;
+            color: var(--text-light);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        
+        /* Event Filters */
+        .event-filters {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+        
+        .filter-tabs {
+            display: flex;
+            gap: 1rem;
+        }
+        
+        .filter-tab {
+            padding: 0.75rem 1.5rem;
+            background: var(--white);
+            border: 1px solid var(--gray);
+            border-radius: 8px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .filter-tab.active {
+            background: var(--primary);
+            color: var(--white);
+            border-color: var(--primary);
+        }
+        
+        .search-box {
+            display: flex;
+            align-items: center;
+            background: var(--white);
+            border-radius: 8px;
+            padding: 0.75rem 1rem;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+            width: 300px;
+        }
+        
+        .search-box input {
+            border: none;
+            outline: none;
+            width: 100%;
+            margin-left: 0.5rem;
+            font-size: 1rem;
+        }
+        
+        /* Events Grid */
+        .events-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 2rem;
+            margin-bottom: 4rem;
+        }
+        
+        .event-card {
+            background: var(--white);
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        
+        .event-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .event-header {
+            display: flex;
+            padding: 1.5rem;
+            border-bottom: 1px solid var(--gray);
+        }
+        
+        .event-date {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, var(--primary), var(--purple));
+            color: var(--white);
+            width: 70px;
+            height: 70px;
+            border-radius: 10px;
+            margin-right: 1rem;
+        }
+        
+        .event-day {
+            font-size: 1.5rem;
+            font-weight: 700;
+            line-height: 1;
+        }
+        
+        .event-month {
+            font-size: 0.9rem;
+            font-weight: 600;
+        }
+        
+        .event-type {
+            font-weight: 700;
+            font-size: 1rem;
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+        }
+        
+        .event-title {
+            font-size: 1.3rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+        
+        .event-content {
+            padding: 1.5rem;
+        }
+        
+        .event-description {
+            color: var(--text-light);
+            margin-bottom: 1.5rem;
+            line-height: 1.5;
+        }
+        
+        .event-details {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            color: var(--text-light);
+        }
+        
+        .event-details i {
+            margin-right: 0.5rem;
+            color: var(--primary);
+        }
+        
+        .event-actions {
+            display: flex;
+            justify-content: space-between;
+        }
+        
+        .btn-outline {
+            background: transparent;
+            color: var(--primary);
+            border: 1px solid var(--primary);
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .btn-outline:hover {
+            background: var(--primary);
+            color: var(--white);
+        }
+        
+        /* Featured Event */
+        .featured-event {
+            background: linear-gradient(135deg, var(--primary), var(--purple));
+            color: var(--white);
+            border-radius: 16px;
+            padding: 3rem;
+            margin-bottom: 4rem;
+            display: flex;
+            align-items: center;
+            gap: 3rem;
+        }
+        
+        .featured-content {
+            flex: 1;
+        }
+        
+        .featured-badge {
+            display: inline-block;
+            background: rgba(255, 255, 255, 0.2);
+            padding: 0.5rem 1rem;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+        }
+        
+        .featured-title {
+            font-size: 2.2rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            line-height: 1.2;
+        }
+        
+        .featured-description {
+            margin-bottom: 2rem;
+            opacity: 0.9;
+        }
+        
+        .featured-image {
+            flex: 1;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        }
+        
+        .featured-image img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+        
+        .btn-white {
+            background: var(--white);
+            color: var(--primary);
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        
+        .btn-white:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(255, 255, 255, 0.3);
+        }
+        
+        /* Footer */
+        .footer {
+            background: var(--text);
+            color: var(--white);
+            padding: 4rem 0 2rem;
+        }
+        
+        .footer-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1.5fr;
+            gap: 3rem;
+            margin-bottom: 3rem;
+        }
+        
+        .footer-logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 1rem;
+        }
+        
+        .footer-description {
+            color: #94a3b8;
+            margin-bottom: 1.5rem;
+        }
+        
+        .social-links {
+            display: flex;
+            gap: 1rem;
+        }
+        
+        .social-link {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            color: var(--white);
+            text-decoration: none;
+            transition: background 0.3s;
+        }
+        
+        .social-link:hover {
+            background: var(--primary);
+        }
+        
+        .footer-heading {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+        }
+        
+        .footer-links {
+            list-style: none;
+        }
+        
+        .footer-links li {
+            margin-bottom: 0.75rem;
+        }
+        
+        .footer-links a {
+            color: #94a3b8;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+        
+        .footer-links a:hover {
+            color: var(--white);
+        }
+        
+        .footer-contact li {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1rem;
+            color: #94a3b8;
+        }
+        
+        .footer-contact i {
+            margin-right: 0.75rem;
+            color: var(--primary);
+        }
+        
+        .footer-bottom {
+            border-top: 1px solid #334155;
+            padding-top: 2rem;
+            text-align: center;
+            color: #94a3b8;
+        }
+        
+        /* Responsive */
+        @media (max-width: 1024px) {
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .featured-event {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .footer-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+            
+            .mobile-toggle {
+                display: block;
+            }
+            
+            .hero-title {
+                font-size: 2.5rem;
+            }
+            
+            .hero-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .events-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .event-filters {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            
+            .search-box {
+                width: 100%;
+            }
+            
+            .footer-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        /* ========== DARK THEME OVERRIDES ========== */
+        .filter-tab {
+            background: rgba(10, 18, 38, 0.64);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: #e6eefc;
+        }
+        
+        .filter-tab.active {
+            background: linear-gradient(135deg, #a855f7, #ec4899);
+            color: #ffffff;
+            border-color: rgba(168, 85, 247, 0.5);
+        }
+        
+        .search-box {
+            background: rgba(10, 18, 38, 0.64);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .search-box input {
+            background: transparent;
+            color: #e6eefc;
+        }
+        
+        .search-box input::placeholder {
+            color: #97a6cc;
+        }
+        
+        .event-card {
+            background: rgba(10, 18, 38, 0.64);
+            border: 1px solid rgba(255, 255, 255, 0.04);
+            box-shadow: 0 6px 20px rgba(2, 8, 23, 0.45);
+        }
+        
+        .event-card:hover {
+            box-shadow: 0 0 40px rgba(168, 85, 247, 0.3);
+            border-color: rgba(168, 85, 247, 0.3);
+        }
+        
+        .event-header {
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        
+        .event-date {
+            background: linear-gradient(135deg, #a855f7, #ec4899);
+            color: #ffffff;
+        }
+        
+        .event-type {
+            color: #a855f7;
+        }
+        
+        .event-title {
+            color: #e6eefc;
+        }
+        
+        .event-description {
+            color: #97a6cc;
+        }
+        
+        .event-details {
+            color: #97a6cc;
+        }
+        
+        .event-details i {
+            color: #a855f7;
+        }
+        
+        .btn-outline {
+            color: #a855f7;
+            border-color: #a855f7;
+        }
+        
+        .btn-outline:hover {
+            background: #a855f7;
+            color: #ffffff;
+        }
+        
+        .featured-event {
+            background: linear-gradient(135deg, #a855f7, #ec4899);
+            color: #ffffff;
+        }
+        
+        .btn-white {
+            background: rgba(255, 255, 255, 0.15);
+            color: #ffffff;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .btn-white:hover {
+            background: rgba(255, 255, 255, 0.25);
+        }
+        
+        .section-title {
+            color: #e6eefc;
+        }
+        
+        .section-subtitle {
+            color: #97a6cc;
+        }
+        
+        .footer {
+            background: rgba(5, 10, 25, 0.95);
+            color: #e6eefc;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        
+        .footer-title {
+            color: #e6eefc;
+        }
+        
+        .footer-links a {
+            color: #97a6cc;
+        }
+        
+        .footer-links a:hover {
+            color: #a855f7;
+        }
+        
+        .social-link {
+            background: rgba(255, 255, 255, 0.05);
+            color: #e6eefc;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .social-link:hover {
+            background: linear-gradient(135deg, #a855f7, #ec4899);
+            color: #ffffff;
+            border-color: transparent;
+        }
+        
+        .footer-bottom {
+            color: #97a6cc;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav id="navbar">
+        <div class="container">
+            <div class="nav-wrapper">
+                <!-- Logo -->
+                <div class="logo">
+                    <div class="logo-icon">K</div>
+                    <span class="logo-text">Smart Campus</span>
+                </div>
+
+                <!-- Desktop Navigation -->
+                <ul class="nav-links">
+                    <li><a href="index.html" class="nav-link">Home</a></li>
+                    <li><a href="events.html" class="nav-link active">Events</a></li>
+                </ul>
+
+                <!-- Login/Logout Button -->
+                <a href="login.html" class="btn-primary btn-login" id="login-btn">Login</a>
+                <button onclick="window.scAuth.logout()" class="btn-primary" id="logout-btn" style="display: none;">
+                    <i class="fas fa-sign-out-alt"></i> Logout
+                </button>
+
+                <!-- Mobile Menu Toggle -->
+                <button class="mobile-toggle" id="mobile-toggle">
+                    <i class="fas fa-bars"></i>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <div class="hero-content">
+                <!-- Badge -->
+                <div class="hero-badge">
+                    <span>🎉 Discover Campus Events</span>
+                </div>
+
+                <!-- Main Heading -->
+                <h1 class="hero-title">
+                    Campus
+                    <span class="gradient-text">Events</span>
+                </h1>
+
+                <!-- Subtitle -->
+                <p class="hero-subtitle">
+                    Stay updated with all the exciting events happening across KLH University. 
+                    From technical workshops to cultural festivals, there's always something happening!
+                </p>
+
+                <!-- CTA Buttons -->
+                <div class="hero-buttons">
+                    <a href="#events" class="btn-primary btn-large">
+                        Browse Events
+                        <i class="fas fa-arrow-down"></i>
+                    </a>
+                </div>
+            </div>
+
+            <!-- Stats Grid -->
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <h3 class="stat-number">150+</h3>
+                    <p class="stat-label">Events This Month</p>
+                </div>
+                <div class="stat-card">
+                    <h3 class="stat-number">45+</h3>
+                    <p class="stat-label">Student Clubs</p>
+                </div>
+                <div class="stat-card">
+                    <h3 class="stat-number">5K+</h3>
+                    <p class="stat-label">Active Participants</p>
+                </div>
+                <div class="stat-card">
+                    <h3 class="stat-number">98%</h3>
+                    <p class="stat-label">Satisfaction Rate</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Featured Event -->
+    <section class="container">
+        <div class="featured-event">
+            <div class="featured-content">
+                <div class="featured-badge">Featured Event</div>
+                <h2 class="featured-title">Annual Tech Fest 2025</h2>
+                <p class="featured-description">
+                    Join us for the biggest technology festival of the year! Three days of workshops, hackathons, 
+                    tech talks, and competitions with industry experts and innovators.
+                </p>
+                <button class="btn-white btn-large">
+                    Register Now
+                    <i class="fas fa-arrow-right"></i>
+                </button>
+            </div>
+            <div class="featured-image">
+                <img src="https://images.unsplash.com/photo-1540575467063-178a50c2df87?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Tech Fest">
+            </div>
+        </div>
+    </section>
+
+    <!-- Events Section -->
+    <section id="events" class="container">
+        <!-- Section Header -->
+        <div class="section-header">
+            <h2 class="section-title">Upcoming Events</h2>
+            <p class="section-subtitle">Discover and register for events that match your interests</p>
+        </div>
+
+        <!-- Event Filters -->
+        <div class="event-filters">
+            <div class="filter-tabs">
+                <div class="filter-tab active">All Events</div>
+                <div class="filter-tab">Technical</div>
+                <div class="filter-tab">Cultural</div>
+                <div class="filter-tab">Workshops</div>
+                <div class="filter-tab">My Events</div>
+            </div>
+            <div class="search-box">
+                <i class="fas fa-search"></i>
+                <input type="text" placeholder="Search events...">
+            </div>
+        </div>
+
+        <!-- Events Grid -->
+        <div class="events-grid">
+            <!-- Event 1 -->
+            <div class="event-card">
+                <div class="event-header">
+                    <div class="event-date">
+                        <div class="event-day">12</div>
+                        <div class="event-month">NOV</div>
+                    </div>
+                    <div>
+                        <div class="event-type">Technical</div>
+                        <h3 class="event-title">AI/ML Workshop</h3>
+                    </div>
+                </div>
+                <div class="event-content">
+                    <p class="event-description">
+                        Learn the fundamentals of Artificial Intelligence and Machine Learning with hands-on projects.
+                    </p>
+                    <div class="event-details">
+                        <i class="fas fa-clock"></i> 10:00 AM - 4:00 PM
+                    </div>
+                    <div class="event-details">
+                        <i class="fas fa-map-marker-alt"></i> Lab 3, Tech Building
+                    </div>
+                    <div class="event-actions">
+                        <button class="btn-outline">Details</button>
+                        <button class="btn-primary">Register</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Event 2 -->
+            <div class="event-card">
+                <div class="event-header">
+                    <div class="event-date">
+                        <div class="event-day">24</div>
+                        <div class="event-month">OCT</div>
+                    </div>
+                    <div>
+                        <div class="event-type">Cultural</div>
+                        <h3 class="event-title">Diwali Celebration</h3>
+                    </div>
+                </div>
+                <div class="event-content">
+                    <p class="event-description">
+                        Join us for a grand Diwali celebration with cultural performances and festivities.
+                    </p>
+                    <div class="event-details">
+                        <i class="fas fa-clock"></i> 6:00 PM - 10:00 PM
+                    </div>
+                    <div class="event-details">
+                        <i class="fas fa-map-marker-alt"></i> University Auditorium
+                    </div>
+                    <div class="event-actions">
+                        <button class="btn-outline">Details</button>
+                        <button class="btn-primary">RSVP</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Event 3 -->
+            <div class="event-card">
+                <div class="event-header">
+                    <div class="event-date">
+                        <div class="event-day">05</div>
+                        <div class="event-month">DEC</div>
+                    </div>
+                    <div>
+                        <div class="event-type">Workshop</div>
+                        <h3 class="event-title">Web Development Bootcamp</h3>
+                    </div>
+                </div>
+                <div class="event-content">
+                    <p class="event-description">
+                        Intensive 3-day bootcamp covering HTML, CSS, JavaScript and modern frameworks.
+                    </p>
+                    <div class="event-details">
+                        <i class="fas fa-clock"></i> 9:00 AM - 5:00 PM
+                    </div>
+                    <div class="event-details">
+                        <i class="fas fa-map-marker-alt"></i> Computer Lab 2
+                    </div>
+                    <div class="event-actions">
+                        <button class="btn-outline">Details</button>
+                        <button class="btn-primary">Register</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Event 4 -->
+            <div class="event-card">
+                <div class="event-header">
+                    <div class="event-date">
+                        <div class="event-day">18</div>
+                        <div class="event-month">NOV</div>
+                    </div>
+                    <div>
+                        <div class="event-type">Technical</div>
+                        <h3 class="event-title">Blockchain Symposium</h3>
+                    </div>
+                </div>
+                <div class="event-content">
+                    <p class="event-description">
+                        Explore the future of decentralized technologies and their real-world applications.
+                    </p>
+                    <div class="event-details">
+                        <i class="fas fa-clock"></i> 2:00 PM - 6:00 PM
+                    </div>
+                    <div class="event-details">
+                        <i class="fas fa-map-marker-alt"></i> Conference Hall
+                    </div>
+                    <div class="event-actions">
+                        <button class="btn-outline">Details</button>
+                        <button class="btn-primary">Register</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Event 5 -->
+            <div class="event-card">
+                <div class="event-header">
+                    <div class="event-date">
+                        <div class="event-day">15</div>
+                        <div class="event-month">NOV</div>
+                    </div>
+                    <div>
+                        <div class="event-type">Cultural</div>
+                        <h3 class="event-title">International Food Fair</h3>
+                    </div>
+                </div>
+                <div class="event-content">
+                    <p class="event-description">
+                        Taste culinary delights from around the world prepared by our diverse student community.
+                    </p>
+                    <div class="event-details">
+                        <i class="fas fa-clock"></i> 12:00 PM - 4:00 PM
+                    </div>
+                    <div class="event-details">
+                        <i class="fas fa-map-marker-alt"></i> Campus Green
+                    </div>
+                    <div class="event-actions">
+                        <button class="btn-outline">Details</button>
+                        <button class="btn-primary">RSVP</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Event 6 -->
+            <div class="event-card">
+                <div class="event-header">
+                    <div class="event-date">
+                        <div class="event-day">30</div>
+                        <div class="event-month">OCT</div>
+                    </div>
+                    <div>
+                        <div class="event-type">Workshop</div>
+                        <h3 class="event-title">Public Speaking Masterclass</h3>
+                    </div>
+                </div>
+                <div class="event-content">
+                    <p class="event-description">
+                        Improve your communication skills and overcome stage fear with expert guidance.
+                    </p>
+                    <div class="event-details">
+                        <i class="fas fa-clock"></i> 3:00 PM - 6:00 PM
+                    </div>
+                    <div class="event-details">
+                        <i class="fas fa-map-marker-alt"></i> Seminar Hall 1
+                    </div>
+                    <div class="event-actions">
+                        <button class="btn-outline">Details</button>
+                        <button class="btn-primary">Register</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <!-- Brand Column -->
+                <div class="footer-col">
+                    <div class="footer-logo">
+                        <div class="logo-icon">K</div>
+                        <span class="logo-text">Smart Campus</span>
+                    </div>
+                    <p class="footer-description">
+                        Empowering KLH University with seamless digital connectivity.
+                    </p>
+                    <div class="social-links">
+                        <a href="#" class="social-link"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-instagram"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-linkedin-in"></i></a>
+                    </div>
+                </div>
+
+                <!-- Quick Links -->
+                <div class="footer-col">
+                    <h4 class="footer-heading">Quick Links</h4>
+                    <ul class="footer-links">
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="features.html">Features</a></li>
+                        <li><a href="events.html">Events</a></li>
+                        <li><a href="about.html">About Us</a></li>
+                    </ul>
+                </div>
+
+                <!-- Resources -->
+                <div class="footer-col">
+                    <h4 class="footer-heading">Resources</h4>
+                    <ul class="footer-links">
+                        <li><a href="#">Help Center</a></li>
+                        <li><a href="#">Documentation</a></li>
+                        <li><a href="#">Privacy Policy</a></li>
+                        <li><a href="#">Terms of Service</a></li>
+                    </ul>
+                </div>
+
+                <!-- Contact -->
+                <div class="footer-col">
+                    <h4 class="footer-heading">Contact Us</h4>
+                    <ul class="footer-contact">
+                        <li>
+                            <i class="fas fa-envelope"></i>
+                            <span>support@smartcampus.edu</span>
+                        </li>
+                        <li>
+                            <i class="fas fa-phone"></i>
+                            <span>+91 123 456 7890</span>
+                        </li>
+                        <li>
+                            <i class="fas fa-map-marker-alt"></i>
+                            <span>KLH University, Hyderabad</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Copyright -->
+            <div class="footer-bottom">
+                <p>&copy; 2025 Smart Campus - KLH University. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Mobile menu toggle
+        document.getElementById('mobile-toggle').addEventListener('click', function() {
+            const mobileNav = document.getElementById('mobile-nav');
+            if (mobileNav) {
+                mobileNav.style.display = mobileNav.style.display === 'block' ? 'none' : 'block';
+            }
+        });
+
+        // Filter tabs functionality
+        document.querySelectorAll('.filter-tab').forEach(tab => {
+            tab.addEventListener('click', function() {
+                document.querySelectorAll('.filter-tab').forEach(t => {
+                    t.classList.remove('active');
+                });
+                this.classList.add('active');
+            });
+        });
+
+        // Event card registration
+        document.querySelectorAll('.btn-primary').forEach(button => {
+            if (button.textContent.includes('Register') || button.textContent.includes('RSVP')) {
+                button.addEventListener('click', function() {
+                    const eventTitle = this.closest('.event-card').querySelector('.event-title').textContent;
+                    alert(`Thank you for registering for: ${eventTitle}`);
+                });
+            }
+        });
+    </script>
+    <script src="data/mockdata.js"></script>
+    <script src="js/notifications.js"></script>
+    <script src="js/dashboard.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/theme-switcher.js"></script>
+    <script>
+        // Events page is now part of dashboard - redirect to dashboard if logged in
+        document.addEventListener('DOMContentLoaded', function() {
+            // Check if user is logged in
+            const userRole = localStorage.getItem('sc_role');
+            
+            if (userRole) {
+                // User is logged in - redirect to their dashboard (events accessible from sidebar)
+                switch(userRole) {
+                    case 'student':
+                        window.location.href = 'dashboard-student.html';
+                        break;
+                    case 'faculty':
+                        window.location.href = 'dashboard-faculty.html';
+                        break;
+                    case 'admin':
+                        window.location.href = 'dashboard-admin.html';
+                        break;
+                }
+            }
+        });
+    </script>
+</body>
+</html>

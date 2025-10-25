@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <title>Faculty Dashboard - Smart Campus</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/dashboard.css">
+  <link rel="stylesheet" href="css/components.css">
+  <script>
+    function handleLogout() {
+      localStorage.clear();
+      sessionStorage.clear();
+      fetch('/api/auth/logout', { method: 'POST', credentials: 'include' }).catch(err => console.log(err));
+      window.location.href = 'login.html';
+    }
+    window.scAuth = { logout: handleLogout };
+  </script>
+</head>
+<body class="dashboard-body">
+  <!-- Sidebar -->
+  <aside class="sidebar" id="sidebar" style="border-right: 3px solid #3b82f6;">
+    <div class="sidebar-header">
+      <div class="logo">
+        <div class="logo-icon">K</div>
+        <span class="logo-text">Smart Campus</span>
+      </div>
+      <div style="margin-top: 0.5rem; padding: 0.25rem 0.75rem; background: linear-gradient(135deg, #3b82f6, #2563eb); border-radius: 12px; text-align: center; font-size: 0.75rem; font-weight: 700; color: white; text-transform: uppercase; letter-spacing: 0.5px;">
+        <i class="fas fa-chalkboard-teacher"></i> FACULTY
+      </div>
+    </div>
+    <nav class="sidebar-nav">
+      <a href="dashboard-faculty.html" class="nav-item active">
+        <i class="fas fa-home"></i>
+        <span>Dashboard</span>
+      </a>
+      <div style="padding: 0.5rem 1rem; font-size: 0.75rem; color: #9ca3af; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; margin-top: 0.5rem;">Create Content</div>
+      <a href="event-management.html" class="nav-item">
+        <i class="fas fa-calendar-plus"></i>
+        <span>Create Event</span>
+      </a>
+      <a href="announcements.html" class="nav-item">
+        <i class="fas fa-bullhorn"></i>
+        <span>Post Announcement</span>
+      </a>
+      <a href="resources.html" class="nav-item">
+        <i class="fas fa-upload"></i>
+        <span>Upload Resource</span>
+      </a>
+      <div style="padding: 0.5rem 1rem; font-size: 0.75rem; color: #9ca3af; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; margin-top: 0.5rem;">View</div>
+      <a href="clubs.html" class="nav-item">
+        <i class="fas fa-users"></i>
+        <span>Clubs</span>
+      </a>
+      <a href="lost-found.html" class="nav-item">
+        <i class="fas fa-search"></i>
+        <span>Lost & Found</span>
+      </a>
+      <div style="padding: 0.5rem 1rem; font-size: 0.75rem; color: #9ca3af; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; margin-top: 0.5rem;">Account</div>
+      <a href="profile.html" class="nav-item">
+        <i class="fas fa-user"></i>
+        <span>Profile</span>
+      </a>
+      <a href="login.html" class="nav-item" onclick="localStorage.clear(); sessionStorage.clear();">
+        <i class="fas fa-sign-out-alt"></i>
+        <span>Logout</span>
+      </a>
+    </nav>
+  </aside>
+
+  <!-- Main Content -->
+  <main class="main-content">
+    <!-- Top Bar -->
+    <header class="top-bar">
+      <div class="top-bar-left">
+        <h1 class="page-title">Faculty Dashboard</h1>
+        <p style="font-size: 0.875rem; color: #9ca3af; margin-top: 0.25rem;">Create events, announcements, and manage resources</p>
+      </div>
+      <div class="top-bar-right" style="display: flex; align-items: center; gap: 1rem;">
+        <div class="user-info" style="display: flex; align-items: center; gap: 0.75rem; padding: 0.5rem 1rem; background: rgba(59, 130, 246, 0.1); border-radius: 8px; border: 1px solid rgba(59, 130, 246, 0.3);">
+          <div style="width: 36px; height: 36px; background: linear-gradient(135deg, #3b82f6, #2563eb); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-weight: 700;">
+            <i class="fas fa-chalkboard-teacher"></i>
+          </div>
+          <div>
+            <div id="user-name" style="font-weight: 600; color: #e6eefc; font-size: 0.875rem;">Faculty</div>
+            <div id="user-email" style="font-size: 0.75rem; color: #97a6cc;">faculty@klh.edu</div>
+          </div>
+        </div>
+        <a href="login.html" onclick="localStorage.clear(); sessionStorage.clear();" style="padding: 0.5rem 1rem; background: #3b82f6; color: white; border: none; border-radius: 8px; cursor: pointer; font-weight: 600; text-decoration: none; display: inline-block;">
+          <i class="fas fa-sign-out-alt"></i> Logout
+        </a>
+      </div>
+    </header>
+
+    <!-- Dashboard Content -->
+    <div class="dashboard-content">
+      <!-- Notification Banner -->
+      <div style="background: rgba(245, 158, 11, 0.1); border-left: 4px solid #f59e0b; padding: 1rem; border-radius: 8px; margin-bottom: 1.5rem; display: flex; align-items: center; gap: 1rem; border: 1px solid rgba(245, 158, 11, 0.2);">
+        <i class="fas fa-info-circle" style="font-size: 1.5rem; color: #f59e0b;"></i>
+        <div>
+          <h4 style="color: #e6eefc; margin-bottom: 0.25rem;">Approval Required</h4>
+          <p style="color: #97a6cc; font-size: 0.875rem; margin: 0;">All events and announcements require admin approval before being published.</p>
+        </div>
+      </div>
+
+      <!-- Stats Overview -->
+      <div class="dashboard-grid" style="grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin-bottom: 2rem;">
+        <div class="dashboard-card" style="background: linear-gradient(135deg, #3b82f6, #2563eb); color: white;">
+          <h4 style="font-size: 0.875rem; opacity: 0.9; margin-bottom: 0.5rem;">My Events</h4>
+          <div style="font-size: 2rem; font-weight: 700;">8</div>
+          <p style="font-size: 0.75rem; opacity: 0.8; margin-top: 0.25rem;">3 pending approval</p>
+        </div>
+        <div class="dashboard-card" style="background: linear-gradient(135deg, #10b981, #059669); color: white;">
+          <h4 style="font-size: 0.875rem; opacity: 0.9; margin-bottom: 0.5rem;">Announcements</h4>
+          <div style="font-size: 2rem; font-weight: 700;">15</div>
+          <p style="font-size: 0.75rem; opacity: 0.8; margin-top: 0.25rem;">2 pending approval</p>
+        </div>
+        <div class="dashboard-card" style="background: linear-gradient(135deg, #a855f7, #9333ea); color: white;">
+          <h4 style="font-size: 0.875rem; opacity: 0.9; margin-bottom: 0.5rem;">Resources Shared</h4>
+          <div style="font-size: 2rem; font-weight: 700;">24</div>
+          <p style="font-size: 0.75rem; opacity: 0.8; margin-top: 0.25rem;">All approved</p>
+        </div>
+      </div>
+
+      <!-- Pending Items -->
+      <div class="dashboard-card" style="margin-bottom: 2rem;">
+        <div class="card-header">
+          <h3><i class="fas fa-clock" style="color: #f59e0b;"></i> Pending Approval</h3>
+        </div>
+        <div style="margin-top: 1rem;">
+          <div style="padding: 1rem; background: rgba(245, 158, 11, 0.1); border-left: 3px solid #f59e0b; border-radius: 6px; margin-bottom: 0.75rem; border: 1px solid rgba(245, 158, 11, 0.2);">
+            <div style="display: flex; justify-content: space-between; align-items: start;">
+              <div>
+                <h4 style="color: #e6eefc; margin-bottom: 0.25rem;">Event: Tech Symposium 2024</h4>
+                <p style="color: #97a6cc; font-size: 0.875rem; margin: 0;">Submitted 2 hours ago • Waiting for admin approval</p>
+              </div>
+              <span style="background: rgba(245, 158, 11, 0.3); color: #fbbf24; padding: 0.25rem 0.75rem; border-radius: 12px; font-size: 0.75rem; font-weight: 600; border: 1px solid rgba(245, 158, 11, 0.4);">PENDING</span>
+            </div>
+          </div>
+          <div style="padding: 1rem; background: rgba(245, 158, 11, 0.1); border-left: 3px solid #f59e0b; border-radius: 6px; margin-bottom: 0.75rem; border: 1px solid rgba(245, 158, 11, 0.2);">
+            <div style="display: flex; justify-content: space-between; align-items: start;">
+              <div>
+                <h4 style="color: #e6eefc; margin-bottom: 0.25rem;">Announcement: Holiday Notice</h4>
+                <p style="color: #97a6cc; font-size: 0.875rem; margin: 0;">Submitted 5 hours ago • Waiting for admin approval</p>
+              </div>
+              <span style="background: rgba(245, 158, 11, 0.3); color: #fbbf24; padding: 0.25rem 0.75rem; border-radius: 12px; font-size: 0.75rem; font-weight: 600; border: 1px solid rgba(245, 158, 11, 0.4);">PENDING</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Quick Actions -->
+      <div class="section-header">
+        <h3>Quick Actions</h3>
+      </div>
+      <div class="quick-actions" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1rem;">
+        <a class="action-card" href="events.html" style="text-decoration: none; color: inherit;">
+          <div class="action-icon" style="background: linear-gradient(135deg, #a855f7, #9333ea);">
+            <i class="fas fa-calendar-plus"></i>
+          </div>
+          <h4>Create Event</h4>
+          <p style="font-size: 0.875rem; color: #6b7280;">Schedule campus events (requires approval)</p>
+        </a>
+        <a class="action-card" href="announcements.html" style="text-decoration: none; color: inherit;">
+          <div class="action-icon" style="background: linear-gradient(135deg, #f59e0b, #d97706);">
+            <i class="fas fa-bullhorn"></i>
+          </div>
+          <h4>Post Announcement</h4>
+          <p style="font-size: 0.875rem; color: #6b7280;">Notify students & staff (requires approval)</p>
+        </a>
+        <a class="action-card" href="resources.html" style="text-decoration: none; color: inherit;">
+          <div class="action-icon bg-blue">
+            <i class="fas fa-upload"></i>
+          </div>
+          <h4>Upload Resource</h4>
+          <p style="font-size: 0.875rem; color: #6b7280;">Share study materials with students</p>
+        </a>
+      </div>
+    </div>
+  </main>
+
+  <script src="js/dashboard.js"></script>
+  <script src="js/theme-switcher.js"></script>
+</body>
+</html>
+

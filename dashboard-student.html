@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <title>Student Dashboard - Smart Campus</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/dashboard.css">
+  <link rel="stylesheet" href="css/components.css">
+  <script>
+    // Simple logout function
+    function handleLogout() {
+      // Clear all storage
+      localStorage.clear();
+      sessionStorage.clear();
+      
+      // Call backend logout
+      fetch('/api/auth/logout', {
+        method: 'POST',
+        credentials: 'include'
+      }).catch(err => console.log('Logout API error:', err));
+      
+      // Redirect to login
+      window.location.href = 'login.html';
+    }
+    
+    // Also keep scAuth for compatibility
+    window.scAuth = { logout: handleLogout };
+  </script>
+</head>
+<body class="dashboard-body">
+  <aside class="sidebar" style="border-right: 3px solid #10b981;">
+    <div class="sidebar-header">
+      <div class="logo"><div class="logo-icon">K</div><span class="logo-text">Smart Campus</span></div>
+      <div style="margin-top: 0.5rem; padding: 0.25rem 0.75rem; background: linear-gradient(135deg, #10b981, #059669); border-radius: 12px; text-align: center; font-size: 0.75rem; font-weight: 700; color: white; text-transform: uppercase; letter-spacing: 0.5px;">
+        <i class="fas fa-user-graduate"></i> STUDENT
+      </div>
+    </div>
+    <nav class="sidebar-nav">
+      <a href="dashboard-student.html" class="nav-item active"><i class="fas fa-home"></i><span>Dashboard</span></a>
+      <div style="padding: 0.5rem 1rem; font-size: 0.75rem; color: #9ca3af; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; margin-top: 0.5rem;">Campus Life</div>
+      <a href="event-management.html" class="nav-item"><i class="fas fa-calendar-alt"></i><span>Events</span></a>
+      <a href="clubs.html" class="nav-item"><i class="fas fa-users"></i><span>Clubs</span></a>
+      <a href="announcements.html" class="nav-item"><i class="fas fa-bullhorn"></i><span>Announcements</span></a>
+      <div style="padding: 0.5rem 1rem; font-size: 0.75rem; color: #9ca3af; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; margin-top: 0.5rem;">Services</div>
+      <a href="lost-found.html" class="nav-item"><i class="fas fa-search"></i><span>Lost & Found</span></a>
+      <a href="resources.html" class="nav-item"><i class="fas fa-book-open"></i><span>Resources</span></a>
+      <a href="feedback.html" class="nav-item"><i class="fas fa-comments"></i><span>Feedback</span></a>
+      <div style="padding: 0.5rem 1rem; font-size: 0.75rem; color: #9ca3af; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; margin-top: 0.5rem;">Account</div>
+      <a href="profile.html" class="nav-item"><i class="fas fa-user"></i><span>Profile</span></a>
+      <a href="login.html" class="nav-item" onclick="localStorage.clear(); sessionStorage.clear();"><i class="fas fa-sign-out-alt"></i><span>Logout</span></a>
+    </nav>
+  </aside>
+
+  <main class="main-content">
+    <header class="top-bar">
+      <div class="top-bar-left">
+        <h1 class="page-title">Student Dashboard</h1>
+        <p style="font-size: 0.875rem; color: #9ca3af; margin-top: 0.25rem;">Explore events, join clubs, and access resources</p>
+      </div>
+      <div class="top-bar-right" style="display: flex; align-items: center; gap: 1rem;">
+        <div class="user-info" style="display: flex; align-items: center; gap: 0.75rem; padding: 0.5rem 1rem; background: rgba(16, 185, 129, 0.1); border-radius: 8px; border: 1px solid rgba(16, 185, 129, 0.3);">
+          <div style="width: 36px; height: 36px; background: linear-gradient(135deg, #10b981, #059669); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-weight: 700;">
+            <i class="fas fa-user"></i>
+          </div>
+          <div>
+            <div id="user-name" style="font-weight: 600; color: #e6eefc; font-size: 0.875rem;">Student</div>
+            <div id="user-email" style="font-size: 0.75rem; color: #97a6cc;">student@klh.edu</div>
+          </div>
+        </div>
+        <a href="login.html" onclick="localStorage.clear(); sessionStorage.clear();" style="padding: 0.5rem 1rem; background: #10b981; color: white; border: none; border-radius: 8px; cursor: pointer; font-weight: 600; text-decoration: none; display: inline-block;">
+          <i class="fas fa-sign-out-alt"></i> Logout
+        </a>
+      </div>
+    </header>
+    <div class="dashboard-content">
+      <!-- Welcome Section -->
+      <div class="welcome-section glass" style="background: rgba(10, 18, 38, 0.64); border-left: 4px solid #10b981; margin-bottom: 2rem; border: 1px solid rgba(16, 185, 129, 0.3);">
+        <div class="welcome-content">
+          <h2 style="color: #e6eefc;">Welcome Back, Student! 👋</h2>
+          <p style="color: #97a6cc;">Quick access to your events, clubs and resources.</p>
+        </div>
+        <div class="welcome-stats">
+          <div class="stat-item" style="background: rgba(16, 185, 129, 0.1); padding: 1rem; border-radius: 12px; border: 1px solid rgba(16, 185, 129, 0.2);">
+            <i class="fas fa-calendar" style="color: #10b981;"></i>
+            <span class="stat-number" style="color: #10b981;">5</span>
+            <span class="stat-label" style="color: #97a6cc;">Upcoming Events</span>
+          </div>
+          <div class="stat-item" style="background: rgba(16, 185, 129, 0.1); padding: 1rem; border-radius: 12px; border: 1px solid rgba(16, 185, 129, 0.2);">
+            <i class="fas fa-users" style="color: #10b981;"></i>
+            <span class="stat-number" style="color: #10b981;">3</span>
+            <span class="stat-label" style="color: #97a6cc;">My Clubs</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Info Banner -->
+      <div style="background: rgba(59, 130, 246, 0.1); border-left: 4px solid #3b82f6; padding: 1rem; border-radius: 8px; margin-bottom: 1.5rem; display: flex; align-items: center; gap: 1rem; border: 1px solid rgba(59, 130, 246, 0.2);">
+        <i class="fas fa-info-circle" style="font-size: 1.5rem; color: #3b82f6;"></i>
+        <div>
+          <h4 style="color: #e6eefc; margin-bottom: 0.25rem;">Student Access</h4>
+          <p style="color: #97a6cc; font-size: 0.875rem; margin: 0;">You can view events, join clubs, and access resources. Contact faculty or admin for content creation.</p>
+        </div>
+      </div>
+
+      <!-- Quick Stats -->
+      <div class="dashboard-grid" style="grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin-bottom: 2rem;">
+        <div class="dashboard-card" style="background: linear-gradient(135deg, #3b82f6, #2563eb); color: white;">
+          <h4 style="font-size: 0.875rem; opacity: 0.9; margin-bottom: 0.5rem;">Events Registered</h4>
+          <div style="font-size: 2rem; font-weight: 700;">5</div>
+        </div>
+        <div class="dashboard-card" style="background: linear-gradient(135deg, #10b981, #059669); color: white;">
+          <h4 style="font-size: 0.875rem; opacity: 0.9; margin-bottom: 0.5rem;">Clubs Joined</h4>
+          <div style="font-size: 2rem; font-weight: 700;">3</div>
+        </div>
+        <div class="dashboard-card" style="background: linear-gradient(135deg, #a855f7, #9333ea); color: white;">
+          <h4 style="font-size: 0.875rem; opacity: 0.9; margin-bottom: 0.5rem;">Resources Accessed</h4>
+          <div style="font-size: 2rem; font-weight: 700;">12</div>
+        </div>
+      </div>
+
+      <!-- Main Content Grid -->
+      <div class="dashboard-grid" style="grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.5rem;">
+        <!-- Upcoming Events -->
+        <div class="dashboard-card">
+          <div class="card-header">
+            <h3><i class="fas fa-calendar-alt" style="color: #3b82f6;"></i> Upcoming Events</h3>
+            <button onclick="openCreateEventRequest()" style="background: #3b82f6; color: white; border: none; padding: 0.5rem 1rem; border-radius: 6px; cursor: pointer; font-weight: 600; font-size: 0.875rem;">
+              <i class="fas fa-plus"></i> Request Event
+            </button>
+          </div>
+          <div class="event-list" style="margin-top: 1rem;">
+            <div style="padding: 0.75rem; background: rgba(10, 18, 38, 0.5); border-radius: 8px; margin-bottom: 0.75rem; border-left: 3px solid #3b82f6; border: 1px solid rgba(59, 130, 246, 0.2);">
+              <h4 style="color: #e6eefc; margin-bottom: 0.25rem;">AI/ML Workshop</h4>
+              <p style="font-size: 0.875rem; color: #97a6cc; margin: 0;"><i class="fas fa-calendar"></i> Tomorrow, 10:00 AM</p>
+            </div>
+            <div style="padding: 0.75rem; background: rgba(10, 18, 38, 0.5); border-radius: 8px; margin-bottom: 0.75rem; border-left: 3px solid #10b981; border: 1px solid rgba(16, 185, 129, 0.2);">
+              <h4 style="color: #e6eefc; margin-bottom: 0.25rem;">Diwali Celebration</h4>
+              <p style="font-size: 0.875rem; color: #97a6cc; margin: 0;"><i class="fas fa-calendar"></i> Nov 1, 6:00 PM</p>
+            </div>
+            <div style="padding: 0.75rem; background: rgba(10, 18, 38, 0.5); border-radius: 8px; border-left: 3px solid #a855f7; border: 1px solid rgba(168, 85, 247, 0.2);">
+              <h4 style="color: #e6eefc; margin-bottom: 0.25rem;">Sports Day</h4>
+              <p style="font-size: 0.875rem; color: #97a6cc; margin: 0;"><i class="fas fa-calendar"></i> Nov 5, 9:00 AM</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- My Clubs -->
+        <div class="dashboard-card">
+          <div class="card-header">
+            <h3><i class="fas fa-users" style="color: #10b981;"></i> My Clubs</h3>
+            <button onclick="openCreateClubRequest()" style="background: #10b981; color: white; border: none; padding: 0.5rem 1rem; border-radius: 6px; cursor: pointer; font-weight: 600; font-size: 0.875rem;">
+              <i class="fas fa-plus"></i> Request Club
+            </button>
+          </div>
+          <div class="clubs-list" style="margin-top: 1rem;">
+            <div style="padding: 0.75rem; background: rgba(10, 18, 38, 0.5); border-radius: 8px; margin-bottom: 0.75rem; display: flex; align-items: center; gap: 0.75rem; border: 1px solid rgba(255, 255, 255, 0.05);">
+              <div style="width: 40px; height: 40px; background: linear-gradient(135deg, #3b82f6, #2563eb); border-radius: 8px; display: flex; align-items: center; justify-content: center; color: white; font-size: 1.25rem;">
+                🤖
+              </div>
+              <div>
+                <h4 style="color: #e6eefc; margin: 0;">Robotics Club</h4>
+                <p style="font-size: 0.75rem; color: #97a6cc; margin: 0;">45 members</p>
+              </div>
+            </div>
+            <div style="padding: 0.75rem; background: rgba(10, 18, 38, 0.5); border-radius: 8px; margin-bottom: 0.75rem; display: flex; align-items: center; gap: 0.75rem; border: 1px solid rgba(255, 255, 255, 0.05);">
+              <div style="width: 40px; height: 40px; background: linear-gradient(135deg, #10b981, #059669); border-radius: 8px; display: flex; align-items: center; justify-content: center; color: white; font-size: 1.25rem;">
+                🎨
+              </div>
+              <div>
+                <h4 style="color: #e6eefc; margin: 0;">Art Club</h4>
+                <p style="font-size: 0.75rem; color: #97a6cc; margin: 0;">32 members</p>
+              </div>
+            </div>
+            <div style="padding: 0.75rem; background: rgba(10, 18, 38, 0.5); border-radius: 8px; display: flex; align-items: center; gap: 0.75rem; border: 1px solid rgba(255, 255, 255, 0.05);">
+              <div style="width: 40px; height: 40px; background: linear-gradient(135deg, #a855f7, #9333ea); border-radius: 8px; display: flex; align-items: center; justify-content: center; color: white; font-size: 1.25rem;">
+                📚
+              </div>
+              <div>
+                <h4 style="color: #e6eefc; margin: 0;">Book Club</h4>
+                <p style="font-size: 0.75rem; color: #97a6cc; margin: 0;">28 members</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Quick Actions -->
+      <div style="margin-top: 2rem;">
+        <h3 style="margin-bottom: 1rem; color: #e6eefc;">Quick Actions</h3>
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem;">
+          <a href="events.html" style="text-decoration: none; color: inherit; padding: 1rem; background: rgba(10, 18, 38, 0.5); border: 2px solid rgba(255, 255, 255, 0.1); border-radius: 12px; display: flex; align-items: center; gap: 1rem; transition: all 0.3s;" onmouseover="this.style.borderColor='#3b82f6'; this.style.background='rgba(59, 130, 246, 0.1)'" onmouseout="this.style.borderColor='rgba(255, 255, 255, 0.1)'; this.style.background='rgba(10, 18, 38, 0.5)'">
+            <div style="width: 48px; height: 48px; background: linear-gradient(135deg, #3b82f6, #2563eb); border-radius: 10px; display: flex; align-items: center; justify-content: center; color: white;">
+              <i class="fas fa-calendar-check"></i>
+            </div>
+            <div>
+              <h4 style="margin: 0; color: #e6eefc;">Browse Events</h4>
+              <p style="margin: 0; font-size: 0.75rem; color: #97a6cc;">Find & register</p>
+            </div>
+          </a>
+          <a href="clubs.html" style="text-decoration: none; color: inherit; padding: 1rem; background: rgba(10, 18, 38, 0.5); border: 2px solid rgba(255, 255, 255, 0.1); border-radius: 12px; display: flex; align-items: center; gap: 1rem; transition: all 0.3s;" onmouseover="this.style.borderColor='#10b981'; this.style.background='rgba(16, 185, 129, 0.1)'" onmouseout="this.style.borderColor='rgba(255, 255, 255, 0.1)'; this.style.background='rgba(10, 18, 38, 0.5)'">
+            <div style="width: 48px; height: 48px; background: linear-gradient(135deg, #10b981, #059669); border-radius: 10px; display: flex; align-items: center; justify-content: center; color: white;">
+              <i class="fas fa-user-plus"></i>
+            </div>
+            <div>
+              <h4 style="margin: 0; color: #e6eefc;">Join Clubs</h4>
+              <p style="margin: 0; font-size: 0.75rem; color: #97a6cc;">Explore & join</p>
+            </div>
+          </a>
+          <a href="lost-found.html" style="text-decoration: none; color: inherit; padding: 1rem; background: rgba(10, 18, 38, 0.5); border: 2px solid rgba(255, 255, 255, 0.1); border-radius: 12px; display: flex; align-items: center; gap: 1rem; transition: all 0.3s;" onmouseover="this.style.borderColor='#f59e0b'; this.style.background='rgba(245, 158, 11, 0.1)'" onmouseout="this.style.borderColor='rgba(255, 255, 255, 0.1)'; this.style.background='rgba(10, 18, 38, 0.5)'">
+            <div style="width: 48px; height: 48px; background: linear-gradient(135deg, #f59e0b, #d97706); border-radius: 10px; display: flex; align-items: center; justify-content: center; color: white;">
+              <i class="fas fa-search"></i>
+            </div>
+            <div>
+              <h4 style="margin: 0; color: #e6eefc;">Lost & Found</h4>
+              <p style="margin: 0; font-size: 0.75rem; color: #97a6cc;">Report items</p>
+            </div>
+          </a>
+          <a href="feedback.html" style="text-decoration: none; color: inherit; padding: 1rem; background: rgba(10, 18, 38, 0.5); border: 2px solid rgba(255, 255, 255, 0.1); border-radius: 12px; display: flex; align-items: center; gap: 1rem; transition: all 0.3s;" onmouseover="this.style.borderColor='#a855f7'; this.style.background='rgba(168, 85, 247, 0.1)'" onmouseout="this.style.borderColor='rgba(255, 255, 255, 0.1)'; this.style.background='rgba(10, 18, 38, 0.5)'">
+            <div style="width: 48px; height: 48px; background: linear-gradient(135deg, #a855f7, #9333ea); border-radius: 10px; display: flex; align-items: center; justify-content: center; color: white;">
+              <i class="fas fa-comment-dots"></i>
+            </div>
+            <div>
+              <h4 style="margin: 0; color: #e6eefc;">Give Feedback</h4>
+              <p style="margin: 0; font-size: 0.75rem; color: #97a6cc;">Share thoughts</p>
+            </div>
+          </a>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- Create Event Request Modal -->
+  <div id="eventRequestModal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.7); z-index: 1000; align-items: center; justify-content: center;">
+    <div style="background: #1e293b; border-radius: 12px; padding: 2rem; width: 90%; max-width: 500px; box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);">
+      <h2 style="color: #e6eefc; margin-bottom: 1rem;"><i class="fas fa-calendar-plus"></i> Request Event Creation</h2>
+      <form id="eventRequestForm" onsubmit="submitEventRequest(event)">
+        <div style="margin-bottom: 1rem;">
+          <label style="display: block; color: #97a6cc; margin-bottom: 0.5rem;">Event Name</label>
+          <input type="text" id="eventName" required style="width: 100%; padding: 0.75rem; background: rgba(15, 23, 42, 0.8); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 8px; color: #e6eefc;">
+        </div>
+        <div style="margin-bottom: 1rem;">
+          <label style="display: block; color: #97a6cc; margin-bottom: 0.5rem;">Description</label>
+          <textarea id="eventDescription" required rows="3" style="width: 100%; padding: 0.75rem; background: rgba(15, 23, 42, 0.8); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 8px; color: #e6eefc;"></textarea>
+        </div>
+        <div style="margin-bottom: 1.5rem;">
+          <label style="display: block; color: #97a6cc; margin-bottom: 0.5rem;">Event Date</label>
+          <input type="date" id="eventDate" required style="width: 100%; padding: 0.75rem; background: rgba(15, 23, 42, 0.8); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 8px; color: #e6eefc;">
+        </div>
+        <div style="display: flex; gap: 1rem; justify-content: flex-end;">
+          <button type="button" onclick="closeEventRequestModal()" style="padding: 0.75rem 1.5rem; background: rgba(255, 255, 255, 0.1); color: #e6eefc; border: none; border-radius: 8px; cursor: pointer;">Cancel</button>
+          <button type="submit" style="padding: 0.75rem 1.5rem; background: #3b82f6; color: white; border: none; border-radius: 8px; cursor: pointer;"><i class="fas fa-paper-plane"></i> Send Request</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Create Club Request Modal -->
+  <div id="clubRequestModal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.7); z-index: 1000; align-items: center; justify-content: center;">
+    <div style="background: #1e293b; border-radius: 12px; padding: 2rem; width: 90%; max-width: 500px; box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);">
+      <h2 style="color: #e6eefc; margin-bottom: 1rem;"><i class="fas fa-users-cog"></i> Request Club Creation</h2>
+      <form id="clubRequestForm" onsubmit="submitClubRequest(event)">
+        <div style="margin-bottom: 1rem;">
+          <label style="display: block; color: #97a6cc; margin-bottom: 0.5rem;">Club Name</label>
+          <input type="text" id="clubName" required style="width: 100%; padding: 0.75rem; background: rgba(15, 23, 42, 0.8); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 8px; color: #e6eefc;">
+        </div>
+        <div style="margin-bottom: 1.5rem;">
+          <label style="display: block; color: #97a6cc; margin-bottom: 0.5rem;">Description</label>
+          <textarea id="clubDescription" required rows="3" style="width: 100%; padding: 0.75rem; background: rgba(15, 23, 42, 0.8); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 8px; color: #e6eefc;"></textarea>
+        </div>
+        <div style="display: flex; gap: 1rem; justify-content: flex-end;">
+          <button type="button" onclick="closeClubRequestModal()" style="padding: 0.75rem 1.5rem; background: rgba(255, 255, 255, 0.1); color: #e6eefc; border: none; border-radius: 8px; cursor: pointer;">Cancel</button>
+          <button type="submit" style="padding: 0.75rem 1.5rem; background: #10b981; color: white; border: none; border-radius: 8px; cursor: pointer;"><i class="fas fa-paper-plane"></i> Send Request</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script src="js/dashboard.js"></script>
+  <script src="js/theme-switcher.js"></script>
+  <script>
+    // Event Request Functions
+    function openCreateEventRequest() {
+      document.getElementById('eventRequestModal').style.display = 'flex';
+    }
+    
+    function closeEventRequestModal() {
+      document.getElementById('eventRequestModal').style.display = 'none';
+      document.getElementById('eventRequestForm').reset();
+    }
+    
+    async function submitEventRequest(e) {
+      e.preventDefault();
+      
+      if(!confirm('Are you sure you want to send this event creation request to admin?')) {
+        return;
+      }
+      
+      const eventData = {
+        type: 'event',
+        name: document.getElementById('eventName').value,
+        description: document.getElementById('eventDescription').value,
+        date: document.getElementById('eventDate').value,
+        requestedBy: localStorage.getItem('sc_user_email') || 'student@klh.edu',
+        status: 'pending'
+      };
+      
+      try {
+        const response = await fetch('http://localhost:3000/api/requests', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          credentials: 'include',
+          body: JSON.stringify(eventData)
+        });
+        
+        const data = await response.json();
+        
+        if(data.ok) {
+          alert('✅ Event request sent to admin successfully!\n\nYou will be notified when admin reviews your request.');
+          closeEventRequestModal();
+        } else {
+          alert('❌ Failed to send request: ' + (data.error || 'Unknown error'));
+        }
+      } catch(error) {
+        console.error('Error:', error);
+        alert('❌ Failed to send request. Please try again.');
+      }
+    }
+    
+    // Club Request Functions
+    function openCreateClubRequest() {
+      document.getElementById('clubRequestModal').style.display = 'flex';
+    }
+    
+    function closeClubRequestModal() {
+      document.getElementById('clubRequestModal').style.display = 'none';
+      document.getElementById('clubRequestForm').reset();
+    }
+    
+    async function submitClubRequest(e) {
+      e.preventDefault();
+      
+      if(!confirm('Are you sure you want to send this club creation request to admin?')) {
+        return;
+      }
+      
+      const clubData = {
+        type: 'club',
+        name: document.getElementById('clubName').value,
+        description: document.getElementById('clubDescription').value,
+        requestedBy: localStorage.getItem('sc_user_email') || 'student@klh.edu',
+        status: 'pending'
+      };
+      
+      try {
+        const response = await fetch('http://localhost:3000/api/requests', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          credentials: 'include',
+          body: JSON.stringify(clubData)
+        });
+        
+        const data = await response.json();
+        
+        if(data.ok) {
+          alert('✅ Club request sent to admin successfully!\n\nYou will be notified when admin reviews your request.');
+          closeClubRequestModal();
+        } else {
+          alert('❌ Failed to send request: ' + (data.error || 'Unknown error'));
+        }
+      } catch(error) {
+        console.error('Error:', error);
+        alert('❌ Failed to send request. Please try again.');
+      }
+    }
+  </script>
+</body>
+</html>

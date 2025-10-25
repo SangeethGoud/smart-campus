@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smart Campus - KLH University</title>
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/dashboard.css"> <!-- ADDED: connect dashboard styles -->
+</head>
+<body>
+    <!-- Navigation -->
+    <nav id="navbar">
+        <div class="container">
+            <div class="nav-wrapper">
+                <!-- Logo -->
+                <div class="logo">
+                    <div class="logo-icon">K</div>
+                    <span class="logo-text">Smart Campus</span>
+                </div>
+
+                <!-- Desktop Navigation -->
+                <ul class="nav-links">
+                    <li><a href="index.html" class="nav-link active">Home</a></li>
+                </ul>
+
+                <!-- Login/Logout Button -->
+                <a href="login.html" class="btn-primary btn-login" id="login-btn">Login</a>
+                <button onclick="window.scAuth.logout()" class="btn-primary" id="logout-btn" style="display: none;">
+                    <i class="fas fa-sign-out-alt"></i> Logout
+                </button>
+
+                <!-- Mobile Menu Toggle -->
+                <button class="mobile-toggle" id="mobile-toggle">
+                    <i class="fas fa-bars"></i>
+                </button>
+            </div>
+
+            <!-- Mobile Navigation -->
+            <div class="mobile-nav" id="mobile-nav">
+                <a href="index.html" class="mobile-link">Home</a>
+                <a href="login.html" class="btn-primary btn-mobile-login">Login</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="home" class="hero">
+        <div class="container">
+            <div class="hero-content">
+                <!-- Badge -->
+                <div class="hero-badge">
+                    <span>🚀 Welcome to the Future of Campus Life</span>
+                </div>
+
+                <!-- Main Heading -->
+                <h1 class="hero-title">
+                    Your Campus,
+                    <span class="gradient-text">Unified</span>
+                </h1>
+
+                <!-- Subtitle -->
+                <p class="hero-subtitle">
+                    Experience seamless campus life with our all-in-one digital ecosystem. 
+                    Connect, engage, and thrive at KLH University.
+                </p>
+
+                <!-- CTA Buttons -->
+                <div class="hero-buttons">
+                    <a href="login.html" class="btn-primary btn-large">
+                        Get Started
+                        <i class="fas fa-arrow-right"></i>
+                    </a>
+                    <a href="demo.html" class="btn-secondary btn-large">Watch Demo</a>
+                </div>
+            </div>
+
+            <!-- Stats Grid -->
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <h3 class="stat-number">5000+</h3>
+                    <p class="stat-label">Active Users</p>
+                </div>
+                <div class="stat-card">
+                    <h3 class="stat-number">150+</h3>
+                    <p class="stat-label">Events/Month</p>
+                </div>
+                <div class="stat-card">
+                    <h3 class="stat-number">45+</h3>
+                    <p class="stat-label">Student Clubs</p>
+                </div>
+                <div class="stat-card">
+                    <h3 class="stat-number">&lt;2hrs</h3>
+                    <p class="stat-label">Response Time</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Animated Background Elements -->
+        <div class="bg-animation">
+            <div class="circle circle-1"></div>
+            <div class="circle circle-2"></div>
+            <div class="circle circle-3"></div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section id="features" class="features">
+        <div class="container">
+            <!-- Section Header -->
+            <div class="section-header">
+                <h2 class="section-title">Everything You Need in One Place</h2>
+                <p class="section-subtitle">Powerful features designed to enhance your campus experience</p>
+            </div>
+
+            <!-- Features Grid -->
+            <div class="features-grid">
+                <!-- Feature 1: Lost & Found -->
+                <a href="lostfound.html" class="feature-card" data-aos="fade-up">
+                    <div class="feature-icon bg-blue">
+                        <i class="fas fa-search"></i>
+                    </div>
+                    <h3 class="feature-title">Lost & Found</h3>
+                    <p class="feature-description">
+                        Quick reporting and tracking of lost items across campus with real-time notifications
+                    </p>
+                </a>
+
+                <!-- Feature 2: Event Management -->
+                <a href="events.html" class="feature-card" data-aos="fade-up" data-aos-delay="100">
+                    <div class="feature-icon bg-purple">
+                        <i class="fas fa-calendar-alt"></i>
+                    </div>
+                    <h3 class="feature-title">Event Management</h3>
+                    <p class="feature-description">
+                        Stay updated with campus events and activities in real-time with personalized reminders
+                    </p>
+                </a>
+
+                <!-- Feature 3: Feedback System -->
+                <a href="feedback.html" class="feature-card" data-aos="fade-up" data-aos-delay="200">
+                    <div class="feature-icon bg-orange">
+                        <i class="fas fa-comments"></i>
+                    </div>
+                    <h3 class="feature-title">Feedback System</h3>
+                    <p class="feature-description">
+                        Share your thoughts and grievances with instant responses from administration
+                    </p>
+                </a>
+
+                <!-- Feature 4: Club Dashboard -->
+                <a href="clubs.html" class="feature-card" data-aos="fade-up" data-aos-delay="300">
+                    <div class="feature-icon bg-green">
+                        <i class="fas fa-users"></i>
+                    </div>
+                    <h3 class="feature-title">Club Dashboard</h3>
+                    <p class="feature-description">
+                        Manage and discover student organizations effortlessly with integrated tools
+                    </p>
+                </a>
+
+                <!-- Feature 5: Resource Sharing -->
+                <a href="resources.html" class="feature-card" data-aos="fade-up" data-aos-delay="400">
+                    <div class="feature-icon bg-indigo">
+                        <i class="fas fa-book-open"></i>
+                    </div>
+                    <h3 class="feature-title">Resource Sharing</h3>
+                    <p class="feature-description">
+                        Access and share academic resources with your peers in a centralized library
+                    </p>
+                </a>
+
+                <!-- Feature 6: Announcements -->
+                <a href="announcements.html" class="feature-card" data-aos="fade-up" data-aos-delay="500">
+                    <div class="feature-icon bg-yellow">
+                        <i class="fas fa-bullhorn"></i>
+                    </div>
+                    <h3 class="feature-title">Announcements</h3>
+                    <p class="feature-description">
+                        Never miss important campus-wide notifications with push alerts and updates
+                    </p>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta-section">
+        <div class="container">
+            <div class="cta-card">
+                <h2 class="cta-title">Ready to Transform Your Campus Experience?</h2>
+                <p class="cta-description">
+                    Join thousands of students and faculty already using Smart Campus to stay connected and organized.
+                </p>
+                <button class="btn-white btn-large">
+                    Create Your Account
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <!-- Brand Column -->
+                <div class="footer-col">
+                    <div class="footer-logo">
+                        <div class="logo-icon">K</div>
+                        <span class="logo-text">Smart Campus</span>
+                    </div>
+                    <p class="footer-description">
+                        Empowering KLH University with seamless digital connectivity.
+                    </p>
+                    <div class="social-links">
+                        <a href="#" class="social-link"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-instagram"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-linkedin-in"></i></a>
+                    </div>
+                </div>
+
+                <!-- Quick Links -->
+                <div class="footer-col">
+                    <h4 class="footer-heading">Quick Links</h4>
+                    <ul class="footer-links">
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="features.html">Features</a></li>
+                        <li><a href="about.html">About Us</a></li>
+                        <li><a href="contact.html">Contact</a></li>
+                    </ul>
+                </div>
+
+                <!-- Resources -->
+                <div class="footer-col">
+                    <h4 class="footer-heading">Resources</h4>
+                    <ul class="footer-links">
+                        <li><a href="#">Help Center</a></li>
+                        <li><a href="#">Documentation</a></li>
+                        <li><a href="#">Privacy Policy</a></li>
+                        <li><a href="#">Terms of Service</a></li>
+                    </ul>
+                </div>
+
+                <!-- Contact -->
+                <div class="footer-col">
+                    <h4 class="footer-heading">Contact Us</h4>
+                    <ul class="footer-contact">
+                        <li>
+                            <i class="fas fa-envelope"></i>
+                            <span>support@smartcampus.edu</span>
+                        </li>
+                        <li>
+                            <i class="fas fa-phone"></i>
+                            <span>+91 123 456 7890</span>
+                        </li>
+                        <li>
+                            <i class="fas fa-map-marker-alt"></i>
+                            <span>KLH University, Hyderabad</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Copyright -->
+            <div class="footer-bottom">
+                <p>&copy; 2025 Smart Campus - KLH University. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scroll to Top Button -->
+    <button id="scroll-top" class="scroll-top">
+        <i class="fas fa-arrow-up"></i>
+    </button>
+    
+    <!-- login -->
+    <a href="login.html" class="back-home">
+        <i class="fas fa-arrow-left"></i>
+        LOGIN
+    </a>
+
+    <!-- Custom JavaScript -->
+    <script src="js/auth.js"></script>
+    <script src="js/script.js"></script>
+    <script src="js/theme-switcher.js"></script>
+    <script>
+        // Toggle login/logout buttons based on authentication
+        document.addEventListener('DOMContentLoaded', function() {
+            const loginBtn = document.getElementById('login-btn');
+            const logoutBtn = document.getElementById('logout-btn');
+            
+            // Check if user is logged in
+            const isLoggedIn = localStorage.getItem('sc_role') !== null;
+            
+            if (isLoggedIn) {
+                // User is logged in - show logout, hide login
+                if (loginBtn) loginBtn.style.display = 'none';
+                if (logoutBtn) logoutBtn.style.display = 'inline-block';
+            } else {
+                // User is not logged in - show login, hide logout
+                if (loginBtn) loginBtn.style.display = 'inline-block';
+                if (logoutBtn) logoutBtn.style.display = 'none';
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Lost & Found - Smart Campus</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/dashboard.css">
+  <link rel="stylesheet" href="css/components.css">
+</head>
+<body class="dashboard-body">
+  <aside class="sidebar">
+    <div class="sidebar-header">
+      <div class="logo"><div class="logo-icon">K</div><span class="logo-text">Smart Campus</span></div>
+    </div>
+    <nav class="sidebar-nav">
+      <a href="dashboard-student.html" class="nav-item"><i class="fas fa-home"></i><span>Dashboard</span></a>
+      <a href="events.html" class="nav-item"><i class="fas fa-calendar-alt"></i><span>Events</span></a>
+      <a href="clubs.html" class="nav-item"><i class="fas fa-users"></i><span>Clubs</span></a>
+      <a href="lost-found.html" class="nav-item active"><i class="fas fa-search"></i><span>Lost & Found</span></a>
+      <a href="resources.html" class="nav-item"><i class="fas fa-book-open"></i><span>Resources</span></a>
+      <a href="feedback.html" class="nav-item"><i class="fas fa-comments"></i><span>Feedback</span></a>
+      <a href="announcements.html" class="nav-item"><i class="fas fa-bullhorn"></i><span>Announcements</span></a>
+      <a href="profile.html" class="nav-item"><i class="fas fa-user"></i><span>Profile</span></a>
+    </nav>
+    <div class="sidebar-footer">
+      <a href="login.html" class="btn-secondary btn-full"><i class="fas fa-sign-out-alt"></i><span>Logout</span></a>
+    </div>
+  </aside>
+
+  <main class="main-content">
+    <header class="top-bar">
+      <div class="top-bar-left"><h1 class="page-title">Lost & Found</h1></div>
+      <div class="top-bar-right">
+        <div class="search-box"><i class="fas fa-search"></i><input id="lost-search" placeholder="Search items..."></div>
+        <div class="user-profile"><img src="https://ui-avatars.com/api/?name=User&background=a855f7&color=fff"><span class="user-name">User</span></div>
+      </div>
+    </header>
+
+    <div class="dashboard-content">
+      <div class="section-header"><h3>Report or Claim an Item</h3></div>
+
+      <div class="dashboard-grid">
+        <div class="dashboard-card">
+          <div class="card-header"><h3>Report Lost Item</h3></div>
+          <form class="glass" id="report-lost-form" onsubmit="event.preventDefault(); alert('Report submitted (mock)')">
+            <div class="form-group">
+              <label>Item Name</label>
+              <input type="text" name="item" required>
+            </div>
+            <div class="form-group">
+              <label>Location</label>
+              <input type="text" name="location" required>
+            </div>
+            <div class="form-group">
+              <label>Description</label>
+              <textarea name="desc" rows="3" required></textarea>
+            </div>
+            <div class="form-row">
+              <button class="btn-primary" type="submit"><i class="fas fa-paper-plane"></i> Report</button>
+              <button class="btn-secondary" type="button" onclick="document.getElementById('found-modal').classList.add('active')">Report Found</button>
+            </div>
+          </form>
+        </div>
+
+        <div class="dashboard-card">
+          <div class="card-header"><h3>Reported Items</h3><a class="view-all" href="lost-found.html">View all</a></div>
+          <div class="event-list lost-items-list">
+            <a class="lost-item" href="lost-found.html">
+              <div>
+                <strong>Black Backpack</strong>
+                <div class="meta">Found near C Block • 21 Oct</div>
+              </div>
+              <span class="badge-new">Claim</span>
+            </a>
+            <a class="lost-item" href="lost-found.html">
+              <div>
+                <strong>Student ID Card</strong>
+                <div class="meta">Reported lost • 19 Oct</div>
+              </div>
+              <span class="badge">Info</span>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- Found Item Modal -->
+  <div class="modal" id="found-modal">
+    <div class="modal-content glass">
+      <div class="modal-header"><h2>Report Found Item</h2><button class="close-modal" onclick="document.getElementById('found-modal').classList.remove('active')"><i class="fas fa-times"></i></button></div>
+      <form onsubmit="event.preventDefault(); alert('Found report sent (mock)'); document.getElementById('found-modal').classList.remove('active')">
+        <div class="form-group"><label>Item</label><input required></div>
+        <div class="form-group"><label>Where found</label><input required></div>
+        <div class="form-group"><label>Contact info</label><input required></div>
+        <div class="modal-actions"><button class="btn-secondary" type="button" onclick="document.getElementById('found-modal').classList.remove('active')">Cancel</button><button class="btn-primary">Send</button></div>
+      </form>
+    </div>
+  </div>
+
+  <script src="js/dashboard.js"></script>
+</body>
+</html>
